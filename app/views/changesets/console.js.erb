@@ -1,0 +1,5 @@
+$('#cookbook-<%= params[:cookbook] %> #console').html(
+    "<%= escape_javascript(raw('<pre>' + CookbookBuild.find(params[:build_id]).console_out + '</pre>')) %>"
+);
+
+$('#cookbook-<%= params[:cookbook] %>-console-refresh i').removeClass('fa-spin')

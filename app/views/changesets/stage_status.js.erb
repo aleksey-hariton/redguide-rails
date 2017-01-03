@@ -1,0 +1,5 @@
+$("#cookbooks-build").replaceWith("<%=raw escape_javascript(render partial: 'changesets/cookbooks', format: 'html', locals: {cookbooks: @changeset.cookbook_builds}) %>");
+
+$(function() {
+  assignRefreshReaction();
+});

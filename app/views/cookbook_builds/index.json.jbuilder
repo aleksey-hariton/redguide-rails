@@ -1,0 +1,1 @@
+json.array! @cookbook_builds, partial: 'cookbook_builds/cookbook_build', as: :cookbook_build

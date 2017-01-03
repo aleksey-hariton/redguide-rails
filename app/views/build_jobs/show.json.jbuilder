@@ -1,0 +1,1 @@
+json.partial! "build_jobs/build_job", build_job: @build_job

@@ -1,0 +1,1 @@
+json.array! @changesets, partial: 'api/changesets/changeset', as: :changeset

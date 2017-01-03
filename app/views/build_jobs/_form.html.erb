@@ -1,0 +1,47 @@
+<%= form_for(build_job) do |f| %>
+  <% if build_job.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(build_job.errors.count, "error") %> prohibited this build_job from being saved:</h2>
+
+      <ul>
+      <% build_job.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title"><%= params[:action].capitalize %></h3>
+      </div>
+
+      <div class="box-body">
+                    <div class="form-group">
+                    <%= f.label :name %>
+              <%= f.text_field :name, class: "form-control", placeholder: 'name'.humanize %>
+                  </div>
+
+                    <div class="form-group">
+                    <%= f.label :url %>
+              <%= f.text_field :url, class: "form-control", placeholder: 'url'.humanize %>
+                  </div>
+
+                    <div class="form-group">
+                    <%= f.label :status %>
+              <%= f.number_field :status, class: "form-control", placeholder: 'status'.humanize %>
+                  </div>
+
+              </div>
+
+      <div class="box-footer">
+        <%= link_to 'Back', build_jobs_path, class: 'btn btn-default' %>
+        <%= f.submit class: "btn btn-success" %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

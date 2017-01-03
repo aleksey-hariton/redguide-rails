@@ -1,0 +1,40 @@
+<%
+  unless build.commit_sha.empty?
+    if build.pr.status == Redguide::API::STATUS_OK
+      icons = 'check'
+      btn_class = 'btn-success'
+    else
+      icons = 'refresh'
+      btn_class = 'btn-primary'
+    end
+
+    icons += ' fa-spin' if [
+        Redguide::API::STATUS_IN_PROGRESS,
+        Redguide::API::STATUS_SCHEDULED
+    ].include?(build.pr.status)
+
+%>
+
+<div class="btn-group btn-group-xs">
+  <a href="<%= build.pr.url %>"
+     class="btn btn-default" target="_blank"
+     style="min-width: 6em"
+     data-toggle="tooltip"
+     data-placement="top"
+     title="<%= build.pr.message %>"
+  >
+    <%= build.pr.short.nil? ? build.pr.message : build.pr.short %>
+  </a>
+<%=
+  link_to icon(icons,'').html_safe,
+          project_changeset_check_pr_path(@project, @changeset, { cookbook_build_id: build.id }),
+          method: :post,
+          remote: true,
+          class: 'btn btn-start-process ' + btn_class,
+          'data-toggle': 'tooltip',
+          'data-placement': 'top',
+          title: 'Check Pull Request'
+
+%>
+</div>
+<% end %>

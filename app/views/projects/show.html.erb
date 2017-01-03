@@ -1,0 +1,84 @@
+<div class="row">
+
+  <!-- project -->
+  <div class="col-xs-5">
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title">
+          <%= @project.key %>
+        </h3>
+      </div>
+
+      <div class="box-body">
+        <b>Jenkins host:</b>
+        <p>
+          <%= link_to @project.jenkins_host, "http://#{@project.jenkins_host}/" %>
+        </p>
+
+        <b>Cookbook build job:</b>
+        <p>
+          <%= link_to @project.cookbook_build_job, "http://#{@project.jenkins_host}/job/#{@project.cookbook_build_job}" %>
+        </p>
+
+<% if @project.environment_build_job && !@project.environment_build_job.empty? %>
+        <b>Environment build job:</b>
+        <p>
+          <%= link_to @project.environment_build_job, "http://#{@project.jenkins_host}/job/#{@project.environment_build_job}" %>
+        </p>
+<% end %>
+        <b>Description:</b>
+        <p>
+          <%= @project.description %>
+        </p>
+      </div>
+      <div class="box-footer">
+        <%= link_to 'Back', projects_path, class: 'btn btn-default' %>
+        <%= link_to 'Edit', edit_project_path(@project), class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookbooks -->
+  <div class="col-xs-3">
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title">Cookbooks</h3>
+      </div>
+
+      <div class="box-body">
+        <dl>
+<% @project.cookbooks.each do |cookbook| %>
+          <dt><%= link_to cookbook.name, [@project, cookbook] %></dt>
+<% end %>
+        </dl>
+      </div>
+      <div class="box-footer">
+        <%= link_to 'Add', new_project_cookbook_path(@project), class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Changesets -->
+  <div class="col-xs-3">
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title">Changesets</h3>
+      </div>
+
+      <div class="box-body">
+        <dl>
+<% @project.changesets.each do |changeset| %>
+          <dt><%= link_to changeset.key, [@project, changeset] %></dt>
+<% end %>
+        </dl>
+      </div>
+      <div class="box-footer">
+        <%= link_to 'Add', new_project_changeset_path(@project), class: 'btn btn-primary' %>
+      </div>
+    </div>
+  </div>
+</div>
+

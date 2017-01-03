@@ -1,0 +1,50 @@
+<%%= form_for(<%= singular_table_name %>) do |f| %>
+  <%% if <%= singular_table_name %>.errors.any? %>
+    <div class="alert alert-danger alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      <h4><i class="icon fa fa-ban"></i> <%%= pluralize(<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h4>
+
+      <ul>
+        <%% <%= singular_table_name %>.errors.full_messages.each do |message| %>
+        <li><%%= message %></li>
+        <%% end %>
+      </ul>
+    </div>
+  <%% end %>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title"><%%= params[:action].capitalize %></h3>
+      </div>
+
+      <div class="box-body">
+<% attributes.each do |attribute| -%>
+            <div class="form-group">
+<% if attribute.password_digest? -%>
+              <%%= f.label :password, class: 'control-label' %>
+              <%%= f.password_field :password, class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+              <%%= f.label :password_confirmation %>
+              <%%= f.password_field :password_confirmation, class: 'form-control' %>
+<% else -%>
+              <%%= f.label :<%= attribute.column_name %>, class: 'control-label' %>
+              <%%= f.<%= attribute.field_type %> :<%= attribute.column_name %>, class: 'form-control', placeholder: '<%=attribute.column_name %>'.humanize %>
+<% end -%>
+            </div>
+
+<% end -%>
+      </div>
+
+      <div class="box-footer">
+        <%%= link_to 'Back', <%= index_helper %>_path, class: 'btn btn-default' %>
+        <%%= f.submit class: 'btn btn-success' %>
+      </div>
+    </div>
+  </div>
+</div>
+<%% end %>

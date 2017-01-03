@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title"><%= plural_table_name.titleize %></h3>
+      </div>
+
+      <div class="box-body">
+
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+              <th><%= attribute.human_name %></th>
+<% end -%>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
+              <tr>
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+                <td><%%= <%= singular_table_name %>.<%= attribute.name %> %></td>
+<% end -%>
+                <td>
+                  <%%= link_to raw('<i class="fa fa-eye"></i>'), <%= singular_table_name %>, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                  <%%= link_to raw('<i class="fa fa-pencil"></i>'), edit_<%= singular_table_name %>_path(<%= singular_table_name %>), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                  <%%= link_to raw('<i class="fa fa-trash"></i>'), <%= singular_table_name %>, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                </td>
+              </tr>
+            <%% end %>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="box-footer">
+        <%%= link_to 'Back', <%= index_helper %>_path, class: 'btn btn-default' %>
+        <%%= link_to 'New <%= singular_table_name.titleize %>', new_<%= singular_table_name %>_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+

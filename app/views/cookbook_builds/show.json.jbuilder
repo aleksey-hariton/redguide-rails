@@ -1,0 +1,1 @@
+json.partial! "cookbook_builds/cookbook_build", cookbook_build: @cookbook_build

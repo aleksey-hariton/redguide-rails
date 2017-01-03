@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title"><%= params[:controller].split('/').last.humanize %></h3>
+      </div>
+
+      <div class="box-body">
+        <dl class="dl-horizontal">
+              <dt>Name</dt>
+              <dd><%= @build_job.name %></dd>
+
+              <dt>Url</dt>
+              <dd><%= @build_job.url %></dd>
+
+              <dt>Console out</dt>
+              <dd><pre style="color: #c5c5c5;background-color: #000000;"><%= raw(@build_job.console_out) %></pre></dd>
+
+              <dt>Status</dt>
+              <dd><%= @build_job.status %></dd>
+
+        </dl>
+      </div>
+      <div class="box-footer">
+        <%= link_to 'Back', build_jobs_path, class: 'btn btn-default' %>
+        <%= link_to 'Edit', edit_build_job_path(@build_job), class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>
+

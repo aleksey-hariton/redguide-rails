@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title">Cookbook Builds</h3>
+      </div>
+
+      <div class="box-body">
+
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Cookbook</th>
+              <th>Foodcritic status</th>
+              <th>Cookstyle status</th>
+              <th>Rspec status</th>
+              <th>Kitchen status</th>
+              <th>Approve status</th>
+              <th>Commit sha</th>
+              <th>Remote branch</th>
+              <th>Build job</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @cookbook_builds.each do |cookbook_build| %>
+              <tr>
+                <td><%= cookbook_build.cookbook_id %></td>
+                <td><%= cookbook_build.foodcritic_status %></td>
+                <td><%= cookbook_build.cookstyle_status %></td>
+                <td><%= cookbook_build.rspec_status %></td>
+                <td><%= cookbook_build.kitchen_status %></td>
+                <td><%= cookbook_build.approve_status %></td>
+                <td><%= cookbook_build.commit_sha %></td>
+                <td><%= cookbook_build.remote_branch %></td>
+                <td><%= cookbook_build.build_job_id %></td>
+                <td>
+                  <%= link_to raw('<i class="fa fa-eye"></i>'), cookbook_build, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                  <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_cookbook_build_path(cookbook_build), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                  <%= link_to raw('<i class="fa fa-trash"></i>'), cookbook_build, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="box-footer">
+        <%= link_to 'Back', cookbook_builds_path, class: 'btn btn-default' %>
+        <%= link_to 'New Cookbook Build', new_cookbook_build_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+

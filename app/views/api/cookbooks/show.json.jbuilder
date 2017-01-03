@@ -1,0 +1,1 @@
+json.partial! 'api/cookbooks/cookbook', cookbook: @cookbook

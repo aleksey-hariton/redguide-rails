@@ -1,0 +1,141 @@
+<%= form_for(project) do |f| %>
+  <% if project.errors.any? %>
+  <div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4><i class="icon fa fa-ban"></i> <%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h4>
+
+    <ul>
+      <% project.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+<div class="row">
+  <!-- Common options -->
+  <div class="col-xs-6">
+    <!-- Common options -->
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title"><%= params[:action].capitalize %></h3>
+      </div>
+
+      <div class="box-body">
+        <div class="form-group">
+          <%= f.label :key, class: 'control-label' %>
+          <%= f.text_field :key, class: 'form-control', placeholder: 'key'.humanize %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :description, class: 'control-label' %>
+          <%= f.text_area :description, class: 'form-control', rows: 4, placeholder: 'description'.humanize %>
+        </div>
+      </div>
+      <div class="box-footer">
+        <%= link_to 'Back', projects_path, class: 'btn btn-default' %>
+        <%= f.submit class: 'btn btn-success' %>
+      </div>
+    </div>
+
+    <!-- Jenkins options -->
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title">Jenkins options</h3>
+      </div>
+
+      <div class="box-body">
+        <div class="form-group">
+          <%= f.label :jenkins_host, class: 'control-label' %>
+          <%= f.text_field :jenkins_host, class: 'form-control', placeholder: 'Jenkins host' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :jenkins_user, class: 'control-label' %>
+          <%= f.text_field :jenkins_user, class: 'form-control', placeholder: 'Jenkins user' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :jenkins_password, class: 'control-label' %>
+          <%= f.password_field :jenkins_password, class: 'form-control', placeholder: 'Jenkins password' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :cookbook_build_job, class: 'control-label' %>
+          <%= f.text_field :cookbook_build_job, class: 'form-control', placeholder: 'Cookbook build job name' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :environment_build_job, class: 'control-label' %>
+          <%= f.text_field :environment_build_job, class: 'form-control', placeholder: 'Environment build job name' %>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Git options -->
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title">VCS options</h3>
+      </div>
+
+      <div class="box-body">
+        <div class="form-group">
+          <%= f.label :vcs_server, class: 'control-label' %>
+          <%= f.text_field :vcs_server, class: 'form-control', placeholder: 'VCS Host' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :vcs_server_user, class: 'control-label' %>
+          <%= f.text_field :vcs_server_user, class: 'form-control', placeholder: 'VCS User' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :vcs_server_user_password, class: 'control-label' %>
+          <%= f.password_field :vcs_server_user_password, class: 'form-control', placeholder: 'VCS Password' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :vcs_server_project, class: 'control-label' %>
+          <%= f.text_field :vcs_server_project, class: 'form-control', placeholder: 'VCS Server Project' %>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Configs -->
+  <div class="col-xs-6">
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title">Configs</h3>
+      </div>
+
+      <div class="box-body">
+        <div class="form-group">
+          <%= f.label :foodcritic_config, class: 'control-label' %>
+          <%= f.text_area :foodcritic_config, class: 'form-control code', placeholder: '.foodcritic', rows: 7 %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :cookstyle_config, class: 'control-label' %>
+          <%= f.text_area :cookstyle_config, class: 'form-control code', placeholder: '.rubocop.yml', rows: 7 %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :kitchen_config, class: 'control-label' %>
+          <%= f.text_area :kitchen_config, class: 'form-control code', placeholder: '.kitchen.local.yml', rows: 7 %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+<% end %>

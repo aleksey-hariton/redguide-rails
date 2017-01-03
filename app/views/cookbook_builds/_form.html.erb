@@ -1,0 +1,82 @@
+<%= form_for(cookbook_build) do |f| %>
+  <% if cookbook_build.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(cookbook_build.errors.count, "error") %> prohibited this cookbook_build from being saved:</h2>
+
+      <ul>
+      <% cookbook_build.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title"><%= params[:action].capitalize %></h3>
+      </div>
+
+      <div class="box-body">
+                    <div class="form-group">
+                    <%= f.label :cookbook_id %>
+              <%= f.number_field :cookbook_id, class: "form-control", placeholder: 'cookbook_id'.humanize %>
+                  </div>
+
+                    <div class="form-group">
+                    <%= f.label :foodcritic_status %>
+              <%= f.number_field :foodcritic_status, class: "form-control", placeholder: 'foodcritic_status'.humanize %>
+                  </div>
+
+                    <div class="form-group">
+                    <%= f.label :cookstyle_status %>
+              <%= f.number_field :cookstyle_status, class: "form-control", placeholder: 'cookstyle_status'.humanize %>
+                  </div>
+
+                    <div class="form-group">
+                    <%= f.label :rspec_status %>
+              <%= f.number_field :rspec_status, class: "form-control", placeholder: 'rspec_status'.humanize %>
+                  </div>
+
+                    <div class="form-group">
+                    <%= f.label :kitchen_status %>
+              <%= f.number_field :kitchen_status, class: "form-control", placeholder: 'kitchen_status'.humanize %>
+                  </div>
+
+                    <div class="form-group">
+                    <%= f.label :approve_status %>
+              <%= f.number_field :approve_status, class: "form-control", placeholder: 'approve_status'.humanize %>
+                  </div>
+
+                    <div class="form-group">
+                    <%= f.label :commit_sha %>
+              <%= f.text_field :commit_sha, class: "form-control", placeholder: 'commit_sha'.humanize %>
+                  </div>
+
+                    <div class="form-group">
+                    <%= f.label :remote_branch %>
+              <%= f.text_field :remote_branch, class: "form-control", placeholder: 'remote_branch'.humanize %>
+                  </div>
+
+                    <div class="form-group">
+                    <%= f.label :build_job_id %>
+              <%= f.number_field :build_job_id, class: "form-control", placeholder: 'build_job_id'.humanize %>
+                  </div>
+
+            <div class="form-group">
+              <%= f.label :changeset_id %>
+              <%= f.number_field :changeset_id, class: "form-control", placeholder: 'build_job_id'.humanize %>
+            </div>
+
+      </div>
+
+      <div class="box-footer">
+        <%= link_to 'Back', cookbook_builds_path, class: 'btn btn-default' %>
+        <%= f.submit class: "btn btn-success" %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

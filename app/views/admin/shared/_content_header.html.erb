@@ -1,0 +1,21 @@
+<section class="content-header">
+  <h1> <%= params[:controller].split('/').last.humanize %> </h1>
+  <ol class="breadcrumb">
+    <%
+      s = ''
+      request.fullpath.split('/').each_with_index do |p, index|
+    %>
+    <li>
+      <% s += "/#{p}"
+         if index == 0
+           s = p
+      %>
+          <%= link_to '<i class="fa fa-dashboard"></i>'.html_safe, admin_root_path %>
+      <% end %>
+      <%= link_to p.humanize, "#{request.base_url}#{s}" %>
+    </li>
+    <% end %>
+    <!-- li></li>
+    <li class="active"> <%= params[:controller].split('/').last.humanize %> </li-->
+  </ol>
+</section>
