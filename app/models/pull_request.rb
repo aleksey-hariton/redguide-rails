@@ -36,14 +36,11 @@ class PullRequest < ApplicationRecord
     self.url = pr['links']['self'].first['href']
     self.short = "##{pr['id']}"
 
-    approve_count = pr['participants'].select{|p| p['approved']}.size
+    approve_count = pr['reviewers'].select{|p| p['approved']}.size
 
     if approve_count > 0
       self.message = "Approves: #{approve_count}"
       self.status = Redguide::API::STATUS_OK
-    elsif pr['status'] == 'DECLINED'
-      self.message = 'Declined'
-      self.status = Redguide::API::STATUS_NOK
     else
       self.message = 'Not approved'
       self.status = Redguide::API::STATUS_UNKNOWN
