@@ -1,12 +1,14 @@
 <% if build.status == Redguide::API::STATUS_IN_PROGRESS %>
-    <a href="#" data-toggle="modal" data-target="#cookbook-<%= build.cookbook.name %>">
-      <%=  render partial: 'shared/progress_bar', locals: {progress: build.progress} %>
-    </a>
+    <%=
+      link_to render(partial: 'shared/progress_bar', locals: {progress: build.progress}),
+              project_changeset_build_details_path(
+                  @project, @changeset,
+                  { build_id: build.id }
+              ),
+              remote: true
+    %>
     <%=  render partial: 'shared/elapsed_time_label', locals: {elapsed: build.elapsed} %>
 <% else %>
-    <a href="#" data-toggle="modal" data-target="#cookbook-<%= build.cookbook.name %>">
-      <%= status_label(build.status) %>
-    </a>
     <% if build.duration > 0 %>
       <%=  render partial: 'shared/elapsed_time_label', locals: {elapsed: build.duration} %>
     <% end %>

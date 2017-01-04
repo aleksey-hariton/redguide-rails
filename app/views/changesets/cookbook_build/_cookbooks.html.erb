@@ -8,10 +8,11 @@
 
       <div class="box-body table-responsive">
         <% if cookbooks.size == 0 %>
-            <%= render partial: 'changesets/hint_run_redguide' %>
+            <%= render partial: 'changesets/cookbook_build/hint_run_redguide' %>
         <% else %>
             <table class="table table-bordered table-striped table-hover table-responsive">
               <tr>
+                <th></th>
                 <th>Name</th>
                 <th style="min-width: 90px;">Progress</th>
                 <th>FoodCritic</th>
@@ -24,7 +25,18 @@
               </tr>
               <% cookbooks.each do |build| %>
                   <tr>
-                    <td class="center"><%= build.cookbook.name %></td>
+                    <td style="max-width: 1.7em" class="text-center">
+                      <%= status_label(build.status, false) %>
+                    </td>
+                    <td class="center">
+                      <%= link_to build.cookbook.name,
+                                  project_changeset_build_details_path(
+                                    @project, @changeset,
+                                    { build_id: build.id }
+                                  ),
+                                  remote: true
+                      %>
+                    </td>
                       <% if build.commit_sha.empty? %>
                         <td colspan="8" class="text-center">
                           Not pushed yet. Please run <code>redguide push</code> to push your changeset to Redguide
@@ -46,7 +58,7 @@
                           <%= status_label(build.kitchen_status) %>
                         </td>
                         <td>
-                          <%= render partial: 'changesets/pr_status', locals: {build: build} %>
+                          <%= render partial: 'changesets/cookbook_build/pr_status', locals: {build: build} %>
                         </td>
                         <td>
                           &nbsp;
@@ -58,7 +70,7 @@
                                         project_changeset_build_cookbook_path(@project, @changeset, { cookbook_build_id: build.id }),
                                         method: :post,
                                         remote: true,
-                                        class: 'btn btn-xs btn-default btn-flat btn-start-process',
+                                        class: 'btn btn-sm btn-default btn-flat btn-start-process',
                                         title: 'Test'
                               %>
                           <% end %>

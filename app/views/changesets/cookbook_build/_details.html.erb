@@ -1,0 +1,60 @@
+<div class="modal fade" tabindex="-1" role="dialog" id="build-details-modal">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">
+          <%= build.cookbook.name %>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <dl class="dl-horizontal">
+          <dt>Job:</dt>
+          <dd><%= link_to build.job_url, build.job_url %></dd>
+
+          <dt>Started:</dt>
+          <dd><%= build.started_at ? time_ago_in_words(build.started_at) : '-' %> ago</dd>
+
+          <dt>Status:</dt>
+          <dd><%= render partial: 'shared/build_job_status', locals: {build: build} %></dd>
+
+          <dt>Branch:</dt>
+          <dd><%= build.remote_branch %></dd>
+
+          <dt>Commit SHA:</dt>
+          <dd><%= build.commit_sha %></dd>
+        </dl>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="box box-primary">
+              <div class="box-header">
+                <h3 class="box-title">Console log</h3>
+              </div>
+              <div class="box-body">
+                <span id="console"></span>
+                <p class="text-center">
+                  <%= link_to icon('refresh', '').html_safe,
+                              project_changeset_console_path(
+                                  @project, @changeset,
+                                  {
+                                    cookbook: build.cookbook.name,
+                                    build_id: build.id
+                                  }
+                              ),
+                              remote: true,
+                              class: 'btn btn-sm btn-default btn-flat refresh-btn',
+                              id: 'cookbook-console-refresh'
+                  %>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

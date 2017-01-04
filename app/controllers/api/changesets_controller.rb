@@ -44,6 +44,7 @@ module Api
           unless cookbook_build
             cookbook_build = @changeset.add_cookbook(cookbook)[:build]
           end
+          cookbook_build.reset if cookbook_build.commit_sha != value[:commit_sha]
           cookbook_build.commit_sha = value[:commit_sha]
           cookbook_build.remote_branch = value[:remote_branch]
           cookbook_build.save

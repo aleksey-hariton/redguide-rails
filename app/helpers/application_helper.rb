@@ -7,7 +7,8 @@ module ApplicationHelper
 
 
   def icon(icon, text)
-    %Q(<i class="fa fa-#{icon}"></i> #{text})
+    text = " #{text}" unless text.nil? || text.empty?
+    %Q(<i class="fa fa-#{icon}"></i>#{text})
   end
 
   def status_label(status, with_text=true, label=true)
@@ -50,9 +51,8 @@ module ApplicationHelper
         css_class = 'label-warning'
     end
 
-    description = '' unless with_text
     if label
-      %Q(<span class="label #{css_class}" style="font-size: 11px;">#{icon(fa_icon, description)}</span>).html_safe
+      %Q(<span class="label #{css_class}" title="#{description}" style="font-size: 11px;">#{icon(fa_icon, with_text ? description : '')}</span>).html_safe
     else
       %Q(#{icon(fa_icon, description)}).html_safe
     end

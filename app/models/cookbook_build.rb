@@ -11,13 +11,18 @@ class CookbookBuild < ApplicationRecord
             }
 
   def build
+    return unless can_rebuild?
+
     job = build_job
     unless job
       job = BuildJob.new
-      job.save
       self.build_job_id = job.id
-      save
     end
+
+    reset
+    job.status = Redguide::API::STATUS_SCHEDULED
+    job.save
+    save
 
     project = changeset.project
     options = {}
@@ -117,6 +122,14 @@ class CookbookBuild < ApplicationRecord
     ]
     # Dont restart if no commit sha or scheduled/in progress
     !commit_sha.empty? && !statuses.include?(status)
+  end
+
+  def reset
+    self.foodcritic_status = Redguide::API::STATUS_UNKNOWN
+    self.cookstyle_status = Redguide::API::STATUS_UNKNOWN
+    self.rspec_status = Redguide::API::STATUS_UNKNOWN
+    self.kitchen_status = Redguide::API::STATUS_UNKNOWN
+    save
   end
 
   private

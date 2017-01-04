@@ -1,5 +1,5 @@
 class ChangesetsController < Admin::ApplicationController
-  before_action :set_changeset, only: [:show, :edit, :update, :destroy, :build_cookbook, :stage_status, :check_pr]
+  before_action :set_changeset, only: [:show, :edit, :update, :destroy, :build_cookbook, :stage_status, :check_pr, :build_details]
   before_action :set_project
 
   layout 'admin/layouts/admin'
@@ -15,7 +15,7 @@ class ChangesetsController < Admin::ApplicationController
 
   def build_cookbook
     build = @changeset.cookbook_builds.find(params[:cookbook_build_id])
-    build.build if build.can_rebuild?
+    build.build
   end
 
   def check_pr

@@ -1,0 +1,4 @@
+$('#build-details').html(
+    "<%= escape_javascript(render partial: 'changesets/cookbook_build/details', locals: {build: CookbookBuild.find(params[:build_id])}) %>"
+);
+$('#build-details-modal').modal('show');

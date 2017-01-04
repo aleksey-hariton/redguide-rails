@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       post :check_pr
       get :stage_status
       get :console
+      get :build_details
     end
   end
   # Back admin routes start
