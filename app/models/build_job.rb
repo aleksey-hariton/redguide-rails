@@ -10,6 +10,7 @@ class BuildJob < ApplicationRecord
         password:   params[:jenkins][:password]
     )
     log_file = params[:log_file]
+    File.delete(log_file) if log_file && File.exists?(log_file)
     self.url = ''
     self.status = Redguide::API::STATUS_SCHEDULED
     self.started_at = DateTime.now

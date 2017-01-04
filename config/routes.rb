@@ -8,7 +8,7 @@ Rails.application.routes.draw do
           post :push
           post :notify
         end
-        resources :cookbooks, only: [:index, :show]
+        resources :cookbooks, only: [:index, :show, :create]
       end
     end
   end
