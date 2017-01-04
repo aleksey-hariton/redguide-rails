@@ -3,6 +3,9 @@
     if build.pr.status == Redguide::API::STATUS_OK
       icons = 'check'
       btn_class = 'btn-success'
+    elsif build.pr.status == Redguide::API::STATUS_UNKNOWN
+      icons = 'bullhorn'
+      btn_class = 'btn-info'
     else
       icons = 'refresh'
       btn_class = 'btn-primary'

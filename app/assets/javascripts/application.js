@@ -12,13 +12,10 @@ function updateCookbookBuildStageStatus () {
 }
 
 function assignRefreshReaction(){
-    // Add spin class to Refresh buttons
-    $('.refresh-btn').click(function () {
-        $(this).find('i').addClass('fa-spin');
-    });
     // Add spin and disable 'play' button
     $('.btn-start-process').click(function () {
         var i = $(this).find('i');
+        i.removeClass('fa-bullhorn');
         i.removeClass('fa-play');
         i.addClass('fa-spin fa-refresh');
     });
