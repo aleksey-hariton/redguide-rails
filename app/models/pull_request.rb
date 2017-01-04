@@ -49,7 +49,10 @@ class PullRequest < ApplicationRecord
 
   rescue RestClient::Conflict => e
     self.status = Redguide::API::STATUS_UNKNOWN
-    self.message = 'Up-to-date'
+    self.message = 'No diff with master'
+    self.short = 'Up-to-date'
+    self.url = ''
+    # self.message = e.message + "\n\n" + e.backtrace.join("\n")
     save
   rescue Exception => e
     self.message = e.message + "\n\n" + e.backtrace.join("\n")
