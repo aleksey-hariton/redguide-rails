@@ -24,7 +24,7 @@ class ChangesetsController < Admin::ApplicationController
 
   def check_pr
     build = @changeset.cookbook_builds.find(params[:cookbook_build_id])
-    build.pull_request.delay.check
+    build.check_pr
   end
 
   # GET /changesets/new

@@ -108,6 +108,12 @@ class CookbookBuild < ApplicationRecord
     end
     self.pull_request
   end
+
+  def check_pr
+    pr.status = Redguide::API::STATUS_SCHEDULED
+    pr.save
+    pr.delay.check
+  end
   
   def console_out
     if File.exists? log_file
