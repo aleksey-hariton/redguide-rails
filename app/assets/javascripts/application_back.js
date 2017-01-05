@@ -1,5 +1,6 @@
 //= require jquery
 //= require jquery_ujs
+//= require back/plugins/slimScroll/jquery.slimscroll.min
 //= require back/plugins/pace/pace.min
 //= require back/plugins/bootstrap/bootstrap.min
 //= require back/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min

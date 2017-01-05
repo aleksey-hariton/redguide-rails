@@ -13,6 +13,10 @@ class ChangesetsController < Admin::ApplicationController
   def show
   end
 
+  def console
+    @cookbook_build = CookbookBuild.find(params[:build_id])
+  end
+
   def build_cookbook
     build = @changeset.cookbook_builds.find(params[:cookbook_build_id])
     build.build

@@ -1,5 +1,33 @@
 $('#build-details-modal #console').html(
-    "<%= escape_javascript(raw('<pre>' + CookbookBuild.find(params[:build_id]).console_out + '</pre>')) %>"
+    "<%= escape_javascript(raw('<pre id="console-out">' + @cookbook_build.console_out + '</pre>')) %>"
 );
 
-$('#cookbook-console-refresh i').removeClass('fa-spin')
+$('#build-details-modal #console pre').slimScroll(
+    {
+      height: '700px',
+      width: '100%',
+      railVisible : true,
+      alwaysVisible: true,
+      color: '#ffffff',
+      axis: 'y',
+      size: '20px',
+      wheelStep: 10,
+      disableFadeOut: true
+    }
+).slimScroll({scrollToY:'100000000000'}); // SlimScroll cant scroll to the end of output so...
+
+<% if [Redguide::API::STATUS_IN_PROGRESS, Redguide::API::STATUS_SCHEDULED].include?(@cookbook_build.status) %>
+
+$(document).ready(function() {
+  $(function() {
+    setTimeout(updateConsoleOutput, 2000);
+  });
+});
+
+function updateConsoleOutput () {
+  var changeset = $("#cookbooks-build").attr("data-id");
+  var project = $("#cookbooks-build").attr("data-project");
+  $.getScript("/projects/" + project +"/changesets/" + changeset + "/console?build_id=<%= params[:build_id] %>")
+}
+
+<% end %>

@@ -40,6 +40,8 @@ class CookbookBuild < ApplicationRecord
     }
     options[:log_file] = log_file
 
+    File.delete(log_file) if File.exists? log_file
+
     job.delay.build(
         project.cookbook_build_job,
         options

@@ -24,13 +24,17 @@ class BuildJob < ApplicationRecord
 
     # Need this to save console log on first check if job already finished
     build['building'] = true
+    log_offset = 0
     while build['building']
       build = jenkins.job.get_build_details(job, build_id)
       if log_file
         create_log_dir(log_file)
-        console_out = jenkins.job.get_console_output(job, build_id, 0, 'html')
+        console_out = jenkins.job.get_console_output(job, build_id, log_offset, 'html')
+        log_offset = console_out['size']
         console_out = console_out['output'].force_encoding('UTF-8')
-        ::File.write(log_file, console_out)
+        open(log_file, 'a') do |f|
+          f << console_out
+        end
       end
 
       if build['duration'] > 0
