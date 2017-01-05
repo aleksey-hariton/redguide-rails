@@ -1,58 +1,48 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="build-details-modal">
   <div class="modal-dialog modal-rg-auto" role="document">
-    <div class="modal-content">
+    <div class="modal-content nav-tabs-custom">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">
-          <%= build.cookbook.name %>
-        </h4>
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#details" data-toggle="tab" aria-expanded="true">Details - <%= build.cookbook.name %></a></li>
+          <li class=""><a href="#console" data-toggle="tab" aria-expanded="false">Console</a></li>
+        </ul>
       </div>
-      <div class="modal-body">
-        <div class="nav-tabs-custom">
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#details" data-toggle="tab" aria-expanded="true">Details</a></li>
-            <li class=""><a href="#console" data-toggle="tab" aria-expanded="false">Console</a></li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active" id="details">
-              <dl class="dl-horizontal">
-                <dt>Job:</dt>
-                <dd><%= link_to build.job_url, build.job_url %></dd>
+      <div class="modal-body tab-content">
+        <div class="tab-pane active" id="details">
+          <dl class="dl-horizontal">
+            <dt>Job:</dt>
+            <dd><%= link_to build.job_url, build.job_url %></dd>
 
-                <dt>Started:</dt>
-                <dd><%= build.started_at ? time_ago_in_words(build.started_at) : '-' %> ago</dd>
+            <dt>Started:</dt>
+            <dd><%= build.started_at ? time_ago_in_words(build.started_at) : '-' %> ago</dd>
 
-                <dt>Status:</dt>
-                <dd><%= render partial: 'shared/build_job_status', locals: {build: build} %></dd>
+            <dt>Status:</dt>
+            <dd><%= render partial: 'shared/build_job_status', locals: {build: build} %></dd>
 
-                <dt>Branch:</dt>
-                <dd><%= build.remote_branch %></dd>
+            <dt>Branch:</dt>
+            <dd><%= build.remote_branch %></dd>
 
-                <dt>Commit SHA:</dt>
-                <dd><%= build.commit_sha %></dd>
-              </dl>
-            </div>
-            <!-- /.tab-pane -->
-            <div class="tab-pane" id="console">
-              <p class="text-center">
-                <%= link_to 'Load console output',
-                            project_changeset_console_path(
-                                @project, @changeset,
-                                {
-                                    cookbook: build.cookbook.name,
-                                    build_id: build.id
-                                }
-                            ),
-                            remote: true,
-                            class: 'btn btn-sm btn-default btn-flat btn-start-process'
-                %>
-              </p>
-              <div id="console">
-              </div>
-            </div>
-            <!-- /.tab-pane -->
-          </div>
-          <!-- /.tab-content -->
+            <dt>Commit SHA:</dt>
+            <dd><%= build.commit_sha %></dd>
+          </dl>
+        </div>
+        <!-- /.tab-pane -->
+        <div class="tab-pane" id="console">
+          <p><div id="console"></div></p>
+          <p class="text-center">
+            <%= link_to 'Load console output',
+                        project_changeset_console_path(
+                            @project, @changeset,
+                            {
+                                cookbook: build.cookbook.name,
+                                build_id: build.id
+                            }
+                        ),
+                        remote: true,
+                        class: 'btn btn-sm btn-default btn-flat btn-start-process'
+            %>
+          </p>
         </div>
       </div>
     </div><!-- /.modal-content -->
