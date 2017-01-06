@@ -45,6 +45,12 @@ class PullRequest < ApplicationRecord
       self.message = 'Not approved'
       self.status = Redguide::API::STATUS_UNKNOWN
     end
+
+    if pr['properties']['mergeResult']['outcome'] == 'CONFLICTED'
+      self.message = 'Merge conflict'
+      self.status = Redguide::API::STATUS_NOK
+    end
+
     save
 
   rescue RestClient::Conflict => e

@@ -1,14 +1,18 @@
 <%
   unless build.commit_sha.empty?
-    if build.pr.status == Redguide::API::STATUS_OK
-      icons = 'check'
-      btn_class = 'btn-success'
-    elsif build.pr.status == Redguide::API::STATUS_UNKNOWN
-      icons = 'bullhorn'
-      btn_class = 'btn-info'
-    else
-      icons = 'refresh'
-      btn_class = 'btn-primary'
+    case build.pr.status
+      when Redguide::API::STATUS_OK
+        icons = 'check'
+        btn_class = 'btn-success'
+      when Redguide::API::STATUS_UNKNOWN
+        icons = 'bullhorn'
+        btn_class = 'btn-info'
+      when Redguide::API::STATUS_NOK
+        icons = 'times'
+        btn_class = 'btn-danger'
+      else
+        icons = 'refresh'
+        btn_class = 'btn-primary'
     end
 
     icons += ' fa-spin' if [
@@ -18,7 +22,7 @@
 
 %>
 
-<div class="btn-group btn-group-xs ">
+<div class="btn-group btn-group-xs">
   <a href="<%= build.pr.url %>"
      class="btn btn-default" target="_blank"
      style="min-width: 6em;"
