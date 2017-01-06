@@ -6,11 +6,11 @@
         <h3 class="box-title">#1. Cookbooks build</h3>
       </div>
 
-      <div class="box-body table-responsive">
+      <div class="box-body table-responsive no-padding">
         <% if cookbooks.size == 0 %>
             <%= render partial: 'changesets/cookbook_build/hint_run_redguide' %>
         <% else %>
-            <table class="table table-bordered table-striped table-hover table-responsive">
+            <table class="table table-bordered table-striped table-hover">
               <tr>
                 <th></th>
                 <th>Name</th>

@@ -26,7 +26,7 @@ gem 'jenkins_api_client'
 gem 'delayed_job_active_record'
 gem 'daemons'
 
-gem 'redguide-api', path: '/home/stalker/DEVEL/redguide-api'
+gem 'redguide-api', git: 'https://github.com/aleksey-hariton/redguide-rails' # path: '/home/stalker/DEVEL/redguide-api'
 
 
 # Only Development env gems
