@@ -26,6 +26,8 @@ gem 'jenkins_api_client'
 gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'mysql2', '~> 0.3.18'
+gem 'font-awesome-rails'
+gem 'bootstrap-sass', '~> 3.3.6'
 
 gem 'redguide-api', git: 'https://github.com/aleksey-hariton/redguide-api.git' # path: '/home/stalker/DEVEL/redguide-api'
 
