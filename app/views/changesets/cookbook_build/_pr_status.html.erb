@@ -26,8 +26,6 @@
   <a href="<%= build.pr.url %>"
      class="btn btn-default" target="_blank"
      style="min-width: 6em;"
-     data-toggle="tooltip"
-     data-placement="top"
      title="<%= build.pr.message %>"
   >
     <%= build.pr.short.nil? ? build.pr.message : build.pr.short %>
@@ -38,8 +36,6 @@
           method: :post,
           remote: true,
           class: 'btn btn-start-process ' + btn_class,
-          'data-toggle': 'tooltip',
-          'data-placement': 'top',
           title: 'Check Pull Request'
 
 %>

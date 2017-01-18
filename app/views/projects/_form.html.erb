@@ -13,129 +13,120 @@
   <% end %>
 
 <div class="row">
-  <!-- Common options -->
-  <div class="col-xs-6">
-    <!-- Common options -->
-    <div class="box">
+  <div class="col-xs-12">
+    <div class="nav-tabs-custom">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#basic_config" data-toggle="tab"><%= icon('id-card', 'Project').html_safe %></a></li>
+        <li><a href="#configs" data-toggle="tab"><%= icon('file-text', 'Config files').html_safe %></a></li>
+        <li><a href="#jenkins_options" data-toggle="tab"><%= icon('truck', 'Jenkins').html_safe %></a></li>
+        <li><a href="#vcs_options" data-toggle="tab"><%= icon('git', 'VCS').html_safe %></a></li>
+        <li><a href="#chef_options" data-toggle="tab"><%= icon('shopping-cart', 'Chef/Supermarket').html_safe %></a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="basic_config">
+          <div class="form-group">
+            <%= f.label :key, class: 'control-label' %>
+            <%= f.text_field :key, class: 'form-control', placeholder: 'key'.humanize %>
+          </div>
 
-      <div class="box-header">
-        <h3 class="box-title"><%= params[:action].capitalize %></h3>
-      </div>
-
-      <div class="box-body">
-        <div class="form-group">
-          <%= f.label :key, class: 'control-label' %>
-          <%= f.text_field :key, class: 'form-control', placeholder: 'key'.humanize %>
+          <div class="form-group">
+            <%= f.label :description, class: 'control-label' %>
+            <%= f.text_area :description, class: 'form-control', rows: 4, placeholder: 'description'.humanize %>
+          </div>
         </div>
+        <!-- /basic config -->
+        <div class="tab-pane" id="configs">
+          <div class="form-group">
+            <%= f.label :foodcritic_config, class: 'control-label' %>
+            <%= f.text_area :foodcritic_config, class: 'form-control', style: 'font-family: monospace;', placeholder: '.foodcritic', rows: 7 %>
+          </div>
 
-        <div class="form-group">
-          <%= f.label :description, class: 'control-label' %>
-          <%= f.text_area :description, class: 'form-control', rows: 4, placeholder: 'description'.humanize %>
+          <div class="form-group">
+            <%= f.label :cookstyle_config, class: 'control-label' %>
+            <%= f.text_area :cookstyle_config, class: 'form-control', style: 'font-family: monospace;', placeholder: '.rubocop.yml', rows: 7 %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :kitchen_config, class: 'control-label' %>
+            <%= f.text_area :kitchen_config, class: 'form-control', style: 'font-family: monospace;', placeholder: '.kitchen.local.yml', rows: 7 %>
+          </div>
         </div>
+        <!-- /configs -->
+        <div class="tab-pane" id="jenkins_options">
+          <div class="form-group">
+            <%= f.label :jenkins_host, class: 'control-label' %>
+            <%= f.text_field :jenkins_host, class: 'form-control', placeholder: 'Jenkins host' %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :jenkins_user, class: 'control-label' %>
+            <%= f.text_field :jenkins_user, class: 'form-control', placeholder: 'Jenkins user' %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :jenkins_password, class: 'control-label' %>
+            <%= f.password_field :jenkins_password, class: 'form-control', placeholder: 'Jenkins password' %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :cookbook_build_job, class: 'control-label' %>
+            <%= f.text_field :cookbook_build_job, class: 'form-control', placeholder: 'Cookbook build job name' %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :environment_build_job, class: 'control-label' %>
+            <%= f.text_field :environment_build_job, class: 'form-control', placeholder: 'Environment build job name' %>
+          </div>
+        </div>
+        <!-- /jenkins options -->
+        <div class="tab-pane" id="vcs_options">
+          <div class="form-group">
+            <%= f.label :vcs_server, class: 'control-label' %>
+            <%= f.text_field :vcs_server, class: 'form-control', placeholder: 'VCS Host' %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :vcs_server_user, class: 'control-label' %>
+            <%= f.text_field :vcs_server_user, class: 'form-control', placeholder: 'VCS User' %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :vcs_server_user_password, class: 'control-label' %>
+            <%= f.password_field :vcs_server_user_password, class: 'form-control', placeholder: 'VCS Password' %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :vcs_server_project, class: 'control-label' %>
+            <%= f.text_field :vcs_server_project, class: 'form-control', placeholder: 'VCS Server Project' %>
+          </div>
+        </div>
+        <!-- /VCS options -->
+        <div class="tab-pane" id="chef_options">
+          <div class="form-group">
+            <%= f.label :supermarket_url, class: 'control-label' %>
+            <%= f.text_field :supermarket_url, class: 'form-control', placeholder: 'Supermarket Server URL' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :chef_server_url, class: 'control-label' %>
+            <%= f.text_field :chef_server_url, class: 'form-control', placeholder: 'Chef Server URL' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :chef_user, class: 'control-label' %>
+            <%= f.text_field :chef_user, class: 'form-control', placeholder: 'Chef User' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :chef_user_pem, class: 'control-label' %>
+            <%= f.text_area :chef_user_pem, class: 'form-control', style: 'font-family: monospace;', placeholder: '<USER>.pem', rows: 16 %>
+          </div>
+        </div>
+        <!-- /Chef options -->
       </div>
+      <!-- /.tab-content -->
       <div class="box-footer">
         <%= link_to 'Back', projects_path, class: 'btn btn-default' %>
         <%= f.submit class: 'btn btn-success' %>
       </div>
     </div>
-
-    <!-- Jenkins options -->
-    <div class="box">
-
-      <div class="box-header">
-        <h3 class="box-title">Jenkins options</h3>
-      </div>
-
-      <div class="box-body">
-        <div class="form-group">
-          <%= f.label :jenkins_host, class: 'control-label' %>
-          <%= f.text_field :jenkins_host, class: 'form-control', placeholder: 'Jenkins host' %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :jenkins_user, class: 'control-label' %>
-          <%= f.text_field :jenkins_user, class: 'form-control', placeholder: 'Jenkins user' %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :jenkins_password, class: 'control-label' %>
-          <%= f.password_field :jenkins_password, class: 'form-control', placeholder: 'Jenkins password' %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :cookbook_build_job, class: 'control-label' %>
-          <%= f.text_field :cookbook_build_job, class: 'form-control', placeholder: 'Cookbook build job name' %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :environment_build_job, class: 'control-label' %>
-          <%= f.text_field :environment_build_job, class: 'form-control', placeholder: 'Environment build job name' %>
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- Git options -->
-    <div class="box">
-
-      <div class="box-header">
-        <h3 class="box-title">VCS options</h3>
-      </div>
-
-      <div class="box-body">
-        <div class="form-group">
-          <%= f.label :vcs_server, class: 'control-label' %>
-          <%= f.text_field :vcs_server, class: 'form-control', placeholder: 'VCS Host' %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :vcs_server_user, class: 'control-label' %>
-          <%= f.text_field :vcs_server_user, class: 'form-control', placeholder: 'VCS User' %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :vcs_server_user_password, class: 'control-label' %>
-          <%= f.password_field :vcs_server_user_password, class: 'form-control', placeholder: 'VCS Password' %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :vcs_server_project, class: 'control-label' %>
-          <%= f.text_field :vcs_server_project, class: 'form-control', placeholder: 'VCS Server Project' %>
-        </div>
-      </div>
-
-    </div>
-
   </div>
-
-  <!-- Configs -->
-  <div class="col-xs-6">
-    <div class="box">
-
-      <div class="box-header">
-        <h3 class="box-title">Configs</h3>
-      </div>
-
-      <div class="box-body">
-        <div class="form-group">
-          <%= f.label :foodcritic_config, class: 'control-label' %>
-          <%= f.text_area :foodcritic_config, class: 'form-control code', placeholder: '.foodcritic', rows: 7 %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :cookstyle_config, class: 'control-label' %>
-          <%= f.text_area :cookstyle_config, class: 'form-control code', placeholder: '.rubocop.yml', rows: 7 %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :kitchen_config, class: 'control-label' %>
-          <%= f.text_area :kitchen_config, class: 'form-control code', placeholder: '.kitchen.local.yml', rows: 7 %>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
 </div>
 <% end %>

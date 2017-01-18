@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170103122924) do
+ActiveRecord::Schema.define(version: 20170112125705) do
 
   create_table "build_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",       default: ""
@@ -113,6 +113,10 @@ ActiveRecord::Schema.define(version: 20170103122924) do
     t.string   "vcs_server_user"
     t.string   "vcs_server_user_password"
     t.string   "vcs_server_project"
+    t.string   "chef_user"
+    t.text     "chef_user_pem",            limit: 65535
+    t.string   "supermarket_url"
+    t.string   "chef_server_url"
     t.index ["key"], name: "index_projects_on_key", unique: true, using: :btree
     t.index ["slug"], name: "index_projects_on_slug", unique: true, using: :btree
   end

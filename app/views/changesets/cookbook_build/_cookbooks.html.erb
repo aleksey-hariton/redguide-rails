@@ -20,7 +20,7 @@
                 <th>RSpec</th>
                 <th>Kitchen</th>
                 <th>Approval</th>
-                <th>Version</th>
+                <th>Publish</th>
                 <th></th>
               </tr>
               <% cookbooks.each do |build| %>
@@ -64,16 +64,28 @@
                           &nbsp;
                         </td>
                         <td>
-                          <% if build.can_rebuild? %>
-                              <%=
-                                link_to icon('play','').html_safe,
-                                        project_changeset_build_cookbook_path(@project, @changeset, { cookbook_build_id: build.id }),
-                                        method: :post,
-                                        remote: true,
-                                        class: 'btn btn-sm btn-default btn-flat btn-start-process',
-                                        title: 'Test'
-                              %>
-                          <% end %>
+                          <div class="btn-group">
+                            <% if build.can_rebuild? %>
+                                <%=
+                                  link_to icon('play','Test').html_safe,
+                                          project_changeset_build_cookbook_path(@project, @changeset, { cookbook_build_id: build.id }),
+                                          method: :post,
+                                          remote: true,
+                                          class: 'btn btn-sm btn-default btn-flat btn-start-process',
+                                          title: 'Start Test'
+                                %>
+                            <% end %>
+                            <% if build.can_rebuild? %>
+                                <%=
+                                  link_to icon('flash','Publish').html_safe,
+                                          project_changeset_build_cookbook_path(@project, @changeset, { cookbook_build_id: build.id }),
+                                          method: :post,
+                                          remote: true,
+                                          class: 'btn btn-sm btn-default btn-flat btn-start-process',
+                                          title: 'Publish cookbook'
+                                %>
+                            <% end %>
+                          </div>
                         </td>
                       <% end %>
                   </tr>

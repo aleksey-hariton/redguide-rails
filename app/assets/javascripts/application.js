@@ -17,6 +17,7 @@ function assignRefreshReaction(){
         var i = $(this).find('i');
         i.removeClass('fa-bullhorn');
         i.removeClass('fa-play');
+        i.removeClass('fa-flash');
         i.addClass('fa-spin fa-refresh');
     });
 }

@@ -78,6 +78,10 @@ class ProjectsController < Admin::ApplicationController
           :foodcritic_config,
           :cookstyle_config,
           :kitchen_config,
+          :chef_server_url,
+          :chef_user,
+          :chef_user_pem,
+          :supermarket_url
       )
     end
 end
