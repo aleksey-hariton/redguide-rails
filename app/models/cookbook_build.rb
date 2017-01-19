@@ -29,7 +29,7 @@ class CookbookBuild < ApplicationRecord
     options[:job_params] = {
         RG_PROJECT: project.key,
         RG_CHANGESET: changeset.key,
-        COMMIT: self.commit_sha,
+        COMMIT: self.remote_branch,
         COOKBOOK: cookbook.name,
         VCS_URL: cookbook.vcs_url
     }
