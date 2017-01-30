@@ -1,0 +1,1 @@
+json.array! @error_reports, partial: 'error_reports/error_report', as: :error_report

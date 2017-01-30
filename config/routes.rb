@@ -1,4 +1,19 @@
 Rails.application.routes.draw do
+
+  resources :organizations do
+    resources :environments do
+      resources :nodes do
+        resources :error_reports
+      end
+    end
+  end
+
+  resources :environments, only: [:status_update], :defaults => {:format => :json} do
+    collection do
+      get :status_update
+    end
+  end
+
   namespace :api, defaults: {format: :json} do
     scope :v1, defaults: {format: :json} do
       mount_devise_token_auth_for 'User', at: 'auth'

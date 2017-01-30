@@ -1,0 +1,1 @@
+json.partial! "error_reports/error_report", error_report: @error_report
