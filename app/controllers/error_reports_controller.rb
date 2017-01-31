@@ -4,20 +4,34 @@ class ErrorReportsController < Admin::ApplicationController
 
   # GET /error_reports
   def index
-    @error_reports = ErrorReport.all
+    @organization = Organization.find(params[:organization_id])
+    @environment = Environment.find(params[:environment_id])
+    @node = Node.find(params[:node_id])
+    @error_reports = []
+    @error_reports << ErrorReport.find_by(node: @node)
   end
 
   # GET /error_reports/1
   def show
+    @organization = Organization.find(params[:organization_id])
+    @environment = Environment.find(params[:environment_id])
+    @node = Node.find(params[:node_id])
   end
 
   # GET /error_reports/new
   def new
+    @organization = Organization.find(params[:organization_id])
+    @environment = Environment.find(params[:environment_id])
+    @node = Node.find(params[:node_id])
     @error_report = ErrorReport.new
+    @error_report.node = @node
   end
 
   # GET /error_reports/1/edit
   def edit
+    @organization = Organization.find(params[:organization_id])
+    @environment = Environment.find(params[:environment_id])
+    @node = Node.find(params[:node_id])
   end
 
   # POST /error_reports

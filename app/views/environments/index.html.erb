@@ -23,9 +23,9 @@
                 <td><%= environment.name %></td>
                 <td><%= environment.organization %></td>
                 <td>
-                  <%= link_to raw('<i class="fa fa-eye"></i>'), environment, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
-                  <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_organization_environment_path(environment), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
-                  <%= link_to raw('<i class="fa fa-trash"></i>'), environment, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                  <%= link_to raw('<i class="fa fa-eye"></i>'), organization_environment_path(@organization, environment), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                  <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_organization_environment_path(@organization, environment), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                  <%= link_to raw('<i class="fa fa-trash"></i>'), organization_environment_path(@organization, environment), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
                 </td>
               </tr>
             <% end %>
@@ -35,8 +35,8 @@
       </div>
 
       <div class="box-footer">
-        <%= link_to 'Back', organization_environments_path, class: 'btn btn-default' %>
-        <%= link_to 'New Environment', new_organization_environment_path, class: "btn btn-primary" %>
+        <%= link_to 'Back', organization_path(@organization), class: 'btn btn-default' %>
+        <%= link_to 'New Environment', new_organization_environment_path(@organization), class: "btn btn-primary" %>
       </div>
     </div>
   </div>

@@ -20,8 +20,8 @@
         </dl>
       </div>
       <div class="box-footer">
-        <%= link_to 'Back', nodes_path, class: 'btn btn-default' %>
-        <%= link_to 'Edit', edit_node_path(@node), class: "btn btn-primary" %>
+        <%= link_to 'Back', organization_environment_nodes_path(@organization, @environment), class: 'btn btn-default' %>
+        <%= link_to 'Edit', edit_organization_environment_node_path(@organization, @environment, @node), class: "btn btn-primary" %>
       </div>
     </div>
   </div>

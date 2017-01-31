@@ -29,9 +29,9 @@
                 <td><%= error_report.changed_resources %></td>
                 <td><%= error_report.node %></td>
                 <td>
-                  <%= link_to raw('<i class="fa fa-eye"></i>'), error_report, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
-                  <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_error_report_path(error_report), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
-                  <%= link_to raw('<i class="fa fa-trash"></i>'), error_report, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                  <%= link_to raw('<i class="fa fa-eye"></i>'), organization_environment_node_error_report_path(@organization, @environment, @node, error_report), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                  <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_organization_environment_node_error_report_path(@organization, @environment, @node, error_report), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                  <%= link_to raw('<i class="fa fa-trash"></i>'), organization_environment_node_error_report_path(@organization, @environment, @node, error_report), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
                 </td>
               </tr>
             <% end %>
@@ -41,8 +41,8 @@
       </div>
 
       <div class="box-footer">
-        <%= link_to 'Back', error_reports_path, class: 'btn btn-default' %>
-        <%= link_to 'New Error Report', new_error_report_path, class: "btn btn-primary" %>
+        <%= link_to 'Back', organization_environment_node_path(@organization, @environment, @node), class: 'btn btn-default' %>
+        <%= link_to 'New Error Report', new_organization_environment_node_error_report_path(@organization, @environment, @node), class: "btn btn-primary" %>
       </div>
     </div>
   </div>

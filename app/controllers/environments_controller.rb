@@ -4,7 +4,9 @@ class EnvironmentsController < Admin::ApplicationController
 
   # GET /environments
   def index
-    @environments = Environment.all
+    @environments = []
+    @organization = Organization.find(params[:organization_id])
+    @environments << Environment.find_by(organization: @organization)
   end
 
   # GET /environments/1
@@ -13,11 +15,14 @@ class EnvironmentsController < Admin::ApplicationController
 
   # GET /environments/new
   def new
-    @environment = Environment.new
+    @organization = Organization.find(params[:organization_id])
+    @environment = Environment.new(organization: @organization)
+
   end
 
   # GET /environments/1/edit
   def edit
+    @organization = Organization.find(params[:organization_id])
   end
 
   # POST /environments
