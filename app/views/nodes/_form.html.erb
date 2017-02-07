@@ -1,0 +1,48 @@
+<%= form_for([@organization, @environment, node]) do |f| %>
+  <% if node.errors.any? %>
+    <div class="alert alert-danger alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      <h4><i class="icon fa fa-ban"></i> <%= pluralize(node.errors.count, "error") %> prohibited this node from being saved:</h4>
+
+      <ul>
+        <% node.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title"><%= params[:action].capitalize %></h3>
+      </div>
+
+      <div class="box-body">
+            <div class="form-group">
+              <%= f.label :name, class: 'control-label' %>
+              <%= f.text_field :name, class: 'form-control', placeholder: 'name'.humanize %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :environment_id, class: 'control-label' %>
+              <%= f.text_field :environment_id, class: 'form-control', placeholder: 'environment_id'.humanize %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :status, class: 'control-label' %>
+              <%= f.number_field :status, class: 'form-control', placeholder: 'status'.humanize %>
+            </div>
+
+      </div>
+
+      <div class="box-footer">
+        <%= link_to 'Back', organization_environment_nodes_path(@organization, @environment), class: 'btn btn-default' %>
+        <%= f.submit class: 'btn btn-success' %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title"><%= params[:controller].split('/').last.humanize %></h3>
+      </div>
+
+      <div class="box-body">
+        <dl class="dl-horizontal">
+              <dt>Name</dt>
+              <dd><%= @node.name %></dd>
+
+              <dt>Environment</dt>
+              <dd><%= @node.environment %></dd>
+
+              <dt>Status</dt>
+              <dd><%= @node.status %></dd>
+
+        </dl>
+      </div>
+      <div class="box-footer">
+        <%= link_to 'Back', organization_environment_nodes_path(@organization, @environment), class: 'btn btn-default' %>
+        <%= link_to 'Edit', edit_organization_environment_node_path(@organization, @environment, @node), class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>
+

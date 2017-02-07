@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title"><%= params[:controller].split('/').last.humanize %></h3>
+      </div>
+
+      <div class="box-body">
+        <dl class="dl-horizontal">
+              <dt>Stacktrace</dt>
+              <dd><%= @error_report.stacktrace %></dd>
+
+              <dt>Error msg</dt>
+              <dd><%= @error_report.error_msg %></dd>
+
+              <dt>Errors passed</dt>
+              <dd><%= @error_report.error_passed %></dd>
+
+              <dt>Changed resources</dt>
+              <dd><%= @error_report.changed_resources %></dd>
+
+              <dt>Node</dt>
+              <dd><%= @error_report.node %></dd>
+
+        </dl>
+      </div>
+      <div class="box-footer">
+        <%= link_to 'Back', organization_environment_node_error_reports_path, class: 'btn btn-default' %>
+        <%= link_to 'Edit', edit_organization_environment_node_error_report_path(@organization, @environment, @node, @error_report), class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>
+

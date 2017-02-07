@@ -3,4 +3,7 @@
 #
 user = CreateAdminService.new.call
 puts 'CREATED ADMIN USER: ' << user.email
+
+handler = CreateAdminService.new.handler
+puts 'CREATED HANDLER USER: ' << handler.name
 # Environment variables (ENV['...']) can be set in the file .env file.
