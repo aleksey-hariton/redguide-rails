@@ -21,7 +21,7 @@
             <% @environments.each do |environment| %>
               <tr>
                 <td><%= environment.name %></td>
-                <td><%= environment.organization.name %></td>
+                <td><%= environment.organization %></td>
                 <td>
                   <%= link_to raw('<i class="fa fa-eye"></i>'), organization_environment_path(@organization, environment), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
                   <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_organization_environment_path(@organization, environment), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
