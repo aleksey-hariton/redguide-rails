@@ -1,5 +1,5 @@
 # Tasks
 
-[ ] Configs
-  [ ] Projects configs
-  [ ] Changeset configs
+- [ ] Configs
+  - [ ] Projects configs
+  - [ ] Changeset configs
