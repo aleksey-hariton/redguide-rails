@@ -29,7 +29,11 @@ Rails.application.routes.draw do
     end
   end
 
+
   resources :projects do
+    resources :stages do
+      resources :steps
+    end
     resources :prconfigs
     resources :cookbooks
     resources :changesets do
