@@ -6,7 +6,7 @@ class Changeset < ApplicationRecord
   belongs_to :author, class_name: :User, foreign_key: :author_id
 
   has_many :cookbook_builds
-
+  has_many :stage_builds
 
   validates :key,
             presence: true,
