@@ -10,12 +10,14 @@
           <span>Projects</span>
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
+
           </span>
         </a>
         <ul class="treeview-menu">
           <% Project.all.each do |p| %>
             <li> <%= link_to %Q(<i class="fa fa-gear"></i><span>#{p.key}</span>).html_safe, p%> </li>
           <% end %>
+            <li><%= link_to %Q(<i class="fa fa-plus"></i><span>NEW PROJECT</span>).html_safe, new_project_path %></li>
         </ul>
       </li>
 
