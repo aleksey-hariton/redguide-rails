@@ -5,3 +5,9 @@
 <div id="build-details">
 
 </div>
+
+<%= form_for :stage_config, :url => {:action => "new"} do |c| %>
+    Name: <%= c.text_field :name %><br/>
+    Content: <%= c.text_area :content %><br/>
+    <%= c.submit %>
+<% end %>

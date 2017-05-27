@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     scope :v1, defaults: {format: :json} do
       mount_devise_token_auth_for 'User', at: 'auth'
       resources :projects, only: [:index, :show] do
+        resources :prconfigs
         resources :changesets, only: [:index, :show, :create, :add_cookbook, :push] do
           post :add_cookbook
           post :push
@@ -29,6 +30,7 @@ Rails.application.routes.draw do
   end
 
   resources :projects do
+    resources :prconfigs
     resources :cookbooks
     resources :changesets do
       post :build_cookbook
