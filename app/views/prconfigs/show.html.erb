@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="box">
+
+      <div class="box-header">
+        <h3 class="box-title"><%= params[:controller].split('/').last.humanize %></h3>
+      </div>
+
+      <div class="box-body">
+        <dl class="dl-horizontal">
+              <dt>Name</dt>
+              <dd><%= @prconfig.name %></dd>
+
+              <dt>Content</dt>
+              <dd><%= @prconfig.content %></dd>
+
+        </dl>
+      </div>
+      <div class="box-footer">
+        <%= link_to 'Back', project_prconfigs_path, class: 'btn btn-default' %>
+        <%= link_to 'Edit', edit_project_prconfig_path(@project, @prconfig), class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>
+
