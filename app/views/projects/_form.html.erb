@@ -17,6 +17,7 @@
     <div class="nav-tabs-custom">
       <ul class="nav nav-tabs">
         <li class="active"><a href="#basic_config" data-toggle="tab"><%= icon('id-card', 'Project').html_safe %></a></li>
+        <li><a href="#stages" data-toggle="tab"><%= icon('bars', 'Stages').html_safe %></a></li>
         <li><a href="#configs" data-toggle="tab"><%= icon('file-text', 'Config files').html_safe %></a></li>
         <li><a href="#jenkins_options" data-toggle="tab"><%= icon('truck', 'Jenkins').html_safe %></a></li>
         <li><a href="#vcs_options" data-toggle="tab"><%= icon('git', 'VCS').html_safe %></a></li>
@@ -45,6 +46,50 @@
           </div>
         </div>
         <!-- /basic config -->
+        <div class="tab-pane" id="stages">
+          <%= link_to 'New Stage', new_project_stage_path(@project), class: "btn btn-primary" %>
+          <!-- Stages -->
+          <div class="tab-pane" id="configs">
+            <div class="box">
+
+              <div class="box-header">
+                <h3 class="box-title">Stages</h3>
+              </div>
+
+                <table class="table table-striped table-bordered">
+                  <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th></th>
+                    <th>Steps</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <% @project.stages.each do |stage| %>
+                      <tr>
+                        <td><%= stage.name %></td>
+                        <td><%= stage.description %></td>
+                        <td>
+                          <%= link_to raw('<i class="fa fa-eye"></i>'), [@project, stage], class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                          <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_project_stage_path(@project, stage), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                          <%= link_to raw('<i class="fa fa-trash"></i>'), [@project, stage], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                          <%= link_to 'Add Step', new_project_stage_step_path(@project,stage), class: 'btn btn-primary' %>
+                        </td>
+                        <td>
+                          <% stage.steps.each do |step| %>
+                              <%= raw('<i class="fa fa-'+step.icon+'"></i>') %>
+                          <% end %>
+                        </td>
+                      </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+            </div>
+          </div>
+
+        </div>
+        <!-- /stages -->
         <div class="tab-pane" id="configs">
           <div class="form-group">
 
