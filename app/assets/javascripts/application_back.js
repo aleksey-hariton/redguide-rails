@@ -8,7 +8,31 @@
 //= require back/app
 //= require application
 //= require bootstrap-sprockets
+//= require ace-rails-ap
+//= require ace/theme-monokai
 
+$(function() {
+    $('textarea[data-editor]').each(function() {
+        var textarea = $(this);
+        var mode = textarea.data('editor');
+        var editDiv = $('<div>', {
+            position: 'absolute',
+            width: '100%',
+            height: '300px',
+            'class': textarea.attr('class')
+        }).insertBefore(textarea);
+        textarea.css('visibility', 'hidden');
+        var editor = ace.edit(editDiv[0]);
+        editor.getSession().setValue(textarea.val());
+        editor.getSession().setMode("ace/mode/" + mode);
+        editor.setTheme("ace/theme/monokai");
+
+        // copy back to textarea on form submit...
+        textarea.closest('form').submit(function() {
+            textarea.val(editor.getSession().getValue());
+        })
+    });
+});
 
 $(document).ready(function() {
   var table = $('.dataTable').DataTable();
