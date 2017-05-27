@@ -11,6 +11,29 @@
       </div>
 
       <div class="box-body">
+        <b>Project type:</b>
+        <p>
+          <%= @project.project_type_name %>
+        </p>
+        <% case @project.project_type_name %>
+          <% when "SaltStack" %>
+          <div >
+            <%= image_tag("saltstack.png", size: "32") %>
+          </div>
+          <% when "Chef" %>
+          <div >
+            <%= image_tag("chef.png", size: "32") %>
+          </div>
+          <% when "Puppet" %>
+          <div >
+            <%= image_tag("puppet.png", size: "32") %>
+          </div>
+          <% when "Ansible" %>
+          <div >
+            <%= image_tag("ansible.png", size: "32") %>
+          </div>
+        <% end %>
+
         <b>Jenkins host:</b>
         <p>
           <%= link_to @project.jenkins_host, "http://#{@project.jenkins_host}/" %>

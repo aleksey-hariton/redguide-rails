@@ -81,7 +81,8 @@ class ProjectsController < Admin::ApplicationController
           :chef_server_url,
           :chef_user,
           :chef_user_pem,
-          :supermarket_url
+          :supermarket_url,
+          :project_type_name
       )
     end
 end

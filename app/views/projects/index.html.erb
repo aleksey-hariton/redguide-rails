@@ -11,7 +11,8 @@
         <table class="table table-striped table-bordered">
           <thead>
             <tr>
-              <th>Key</th>
+              <th>CMT</th>
+              <th>Project</th>
               <th>Description</th>
               <th></th>
             </tr>
@@ -20,7 +21,27 @@
           <tbody>
             <% @projects.each do |project| %>
               <tr>
-                <td><%= project.key %></td>
+                <td>
+                <% case project.project_type_name %>
+                  <% when "SaltStack" %>
+                  <div >
+                    <%= image_tag("saltstack.png", size: "32") %>
+                  </div>
+                  <% when "Chef" %>
+                  <div >
+                    <%= image_tag("chef.png", size: "32") %>
+                  </div>
+                  <% when "Puppet" %>
+                  <div >
+                    <%= image_tag("puppet.png", size: "32") %>
+                  </div>
+                  <% when "Ansible" %>
+                  <div >
+                    <%= image_tag("ansible.png", size: "32") %>
+                  </div>
+                <% end %>
+                </td>
+                <td><%= link_to project.key, project %></td>
                 <td><%= project.description %></td>
                 <td>
                   <%= link_to raw('<i class="fa fa-eye"></i>'), project, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
@@ -30,6 +51,7 @@
               </tr>
             <% end %>
           </tbody>
+
         </table>
 
       </div>
@@ -43,4 +65,3 @@
 </div>
 
 <br>
-
