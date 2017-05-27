@@ -7,6 +7,40 @@
       </div>
 
       <div class="box-body">
+        <div id="chart"></div>
+        <% content_for :added_scripts do %>
+            <script type="text/javascript">
+                Morris.Bar({
+                    element: 'chart',
+                    data: [
+                        <% errs = ErrorReport.connection.select_all("
+                            SELECT DATE_FORMAT(error_reports.created_at, '%m-%d-%Y') as dt,
+                            HOUR(error_reports.created_at) as hr,
+                            FLOOR( MINUTE(error_reports.created_at) / 10) as mn,
+                            status,
+                            count(id) as count
+                            FROM error_reports
+                            GROUP BY dt, hr, mn, status").to_hash %>
+                        <% errs_calculated = {}
+                        errs.each do |y|
+                         st = sprintf('%s %02d:%02d', y['dt'], y['hr'].to_i, y['mn'].to_i * 10)
+                         errs_calculated[st] ||= {}
+                         errs_calculated[st][y['status']] = y['count']
+                        end
+                        %>
+                        <% errs_calculated.each_pair do |time, val| %>
+                          { y: '<%= time %>', a: <%= val[Node::STATUS_NOK] ? val[Node::STATUS_NOK] : 0 %>, b: <%= val[Node::STATUS_OK] ? val[Node::STATUS_OK] : 0 %> },
+                        <% end %>
+                    ],
+                    xkey: 'y',
+                    ykeys: ['a', 'b'],
+                    stacked: true,
+                    barColors: ['Red', 'Green'],
+                    labels: ['Failed', 'Success']
+                });
+            </script>
+        <% end %>
+
         <dl class="dl-horizontal">
           <dt>Name</dt>
           <dd><%= @environment.name %></dd>
@@ -41,20 +75,59 @@
                       </div>
                     </div>
                     <div id="content-node<%= n.name %>" class="panel-collapse collapse" aria-expanded="false">
-                      <div class="box-body">
+                      <div class="box-body" style="background-color: #ecf0f5">
+                        <div class="row">
+                          <div class="col-xs-12">
                         <ul class="timeline">
-                          <li class="time-label">Error reports</li>
+                          <li class="time-label"><span class="bg-blue">Error reports</span></li>
                           <% reports = n.error_reports.order({created_at: :desc})
                              reports.each do |r| %>
 
                               <li>
                                 <%= error_report_icon r %>
                                 <div class="timeline-item">
-                                  <%= r.created_at %>
+                                  <h3 class="timeline-header">
+                                    <i class="fa fa-clock-o"></i><span><%= r.created_at %></span>
+                                    <% if r.status != 1 %>
+                                        <span class="timeline-header"><a href="#" data-toggle="modal" data-target="#stacktrace-<%= r.id %>"><strong>View stacktrace</strong></a></span>
+                                    <% end  %>
+                                  </h3>
+                                  <div class="timeline-body">
+                                    <% if r.status == 1 %>
+                                      Success
+                                    <% else  %>
+                                      <div class="row">
+                                        <div class="col-xs-12">
+                                          <div width="100%"><pre class="source_code"><%= r.error_msg %></pre></div>
+                                          <div id="stacktrace-<%= r.id %>" class="modal fade">
+                                            <div class="modal-dialog modal-lg">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                  </button>
+                                                  <h4 class="modal-title">Default Modal</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                  <p><pre class="source_code"><%= r.stacktrace %></pre></p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    <% end  %>
+                                  </div>
                                 </div>
+
                               </li>
                           <% end %>
                         </ul>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

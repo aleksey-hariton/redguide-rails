@@ -1,5 +1,5 @@
 class EnvironmentsController < Admin::ApplicationController
-  before_action :set_environment, only: [:show, :edit, :update, :destroy]
+  before_action :set_environment, only: [:show]
   layout 'admin/layouts/admin'
 
   before_filter :check_auth, only: [:status_update]
@@ -26,18 +26,6 @@ class EnvironmentsController < Admin::ApplicationController
     @organization = Organization.find(params[:organization_id])
   end
 
-  # GET /environments/new
-  def new
-    @organization = Organization.find(params[:organization_id])
-    @environment = Environment.new(organization: @organization)
-
-  end
-
-  # GET /environments/1/edit
-  def edit
-    @organization = Organization.find(params[:organization_id])
-  end
-
   # POST /environments
   def create
     @environment = Environment.new(environment_params)
@@ -53,28 +41,6 @@ class EnvironmentsController < Admin::ApplicationController
     end
   end
 
-  # PATCH/PUT /environments/1
-  def update
-    respond_to do |format|
-      if @environment.update(environment_params)
-        format.html { redirect_to organization_environment_url @environment, notice: 'Environment was successfully updated.' }
-        format.json { render :show, status: :created, location: @environment}
-      else
-        format.html { render :edit }
-        format.json { render json: @environment.errors, status: :unprocessable_entity}
-      end
-    end
-  end
-
-  # DELETE /environments/1
-  def destroy
-    @environment.destroy
-
-    respond_to do |format|
-      format.html { redirect_to environments_url, notice: 'Environment was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
 
   def status_update
     return unless params[:organization]
@@ -87,18 +53,17 @@ class EnvironmentsController < Admin::ApplicationController
     @node = Node.find_or_create_by(name: params[:node], environment: @environment)
     @node.status = params[:status].to_i
 
-    if @node.status == Node::STATUS_NOK
-      @error_report = ErrorReport.new(
-        node: @node,
-        stacktrace: params[:stacktrace],
-        error_passed: params[:error_passed],
-        error_msg: params[:error_msg],
-        status: params[:status]
-      )
+    @error_report = ErrorReport.new(
+      node: @node,
+      environment: @environment,
+      stacktrace: params[:stacktrace],
+      error_passed: params[:error_passed],
+      error_msg: params[:error_msg],
+      status: params[:status]
+    )
 
-      @node.save
-      @error_report.save
-    end
+    @node.save
+    @error_report.save
 
     respond_to do |format|
       format.json {render :status_update}

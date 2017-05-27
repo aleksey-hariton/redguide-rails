@@ -2,6 +2,8 @@
 //= require jquery_ujs
 //= require back/plugins/slimScroll/jquery.slimscroll.min
 //= require back/plugins/pace/pace.min
+//= require back/plugins/morris/morris.min
+//= require back/plugins/raphael/raphael-min
 //= require back/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min
 //= require back/plugins/datatables/jquery.dataTables.min
 //= require back/plugins/datatables/dataTables.bootstrap.min
@@ -11,10 +13,28 @@
 //= require ace-rails-ap
 //= require ace/theme-monokai
 
-var textarea = ace.edit("editor");
-textarea.setTheme("ace/theme/monokai");
-textarea.getSession().setMode("ace/mode/javascript");
+$(function() {
+    $('textarea[data-editor]').each(function() {
+        var textarea = $(this);
+        var mode = textarea.data('editor');
+        var editDiv = $('<div>', {
+            position: 'absolute',
+            width: '100%',
+            height: '300px',
+            'class': textarea.attr('class')
+        }).insertBefore(textarea);
+        textarea.css('visibility', 'hidden');
+        var editor = ace.edit(editDiv[0]);
+        editor.getSession().setValue(textarea.val());
+        editor.getSession().setMode("ace/mode/" + mode);
+        editor.setTheme("ace/theme/monokai");
 
+        // copy back to textarea on form submit...
+        textarea.closest('form').submit(function() {
+            textarea.val(editor.getSession().getValue());
+        })
+    });
+});
 
 $(document).ready(function() {
   var table = $('.dataTable').DataTable();

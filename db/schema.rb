@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170527133706) do
+ActiveRecord::Schema.define(version: 20170130130804) do
 
-  create_table "build_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "build_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",       default: ""
     t.string   "url",        default: ""
     t.integer  "status",     default: 0
@@ -20,9 +20,10 @@ ActiveRecord::Schema.define(version: 20170527133706) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.datetime "started_at"
+    t.text     "stages",     limit: 65535
   end
 
-  create_table "changesets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "changesets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "key",                       default: ""
     t.integer  "project_id"
     t.integer  "author_id"
@@ -36,7 +37,7 @@ ActiveRecord::Schema.define(version: 20170527133706) do
     t.index ["slug"], name: "index_changesets_on_slug", unique: true, using: :btree
   end
 
-  create_table "cookbook_builds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "cookbook_builds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "cookbook_id"
     t.integer  "changeset_id"
     t.integer  "build_job_id",      default: 0
@@ -56,7 +57,7 @@ ActiveRecord::Schema.define(version: 20170527133706) do
     t.index ["cookbook_id"], name: "index_cookbook_builds_on_cookbook_id", using: :btree
   end
 
-  create_table "cookbooks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "cookbooks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",           default: ""
     t.string   "vcs_url",        default: ""
     t.integer  "project_id"
@@ -68,7 +69,7 @@ ActiveRecord::Schema.define(version: 20170527133706) do
     t.index ["project_id"], name: "index_cookbooks_on_project_id", using: :btree
   end
 
-  create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
     t.integer  "attempts",                 default: 0, null: false
     t.text     "handler",    limit: 65535,             null: false
@@ -83,7 +84,7 @@ ActiveRecord::Schema.define(version: 20170527133706) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
 
-  create_table "environments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "environments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.integer  "organization_id"
     t.datetime "created_at",      null: false
@@ -91,7 +92,7 @@ ActiveRecord::Schema.define(version: 20170527133706) do
     t.index ["organization_id"], name: "index_environments_on_organization_id", using: :btree
   end
 
-  create_table "error_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "error_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text     "stacktrace",        limit: 65535
     t.text     "error_msg",         limit: 65535
     t.text     "error_passed",      limit: 65535
@@ -100,10 +101,12 @@ ActiveRecord::Schema.define(version: 20170527133706) do
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.integer  "status"
+    t.integer  "environment_id"
+    t.index ["environment_id"], name: "index_error_reports_on_environment_id", using: :btree
     t.index ["node_id"], name: "index_error_reports_on_node_id", using: :btree
   end
 
-  create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "slug",                      null: false
     t.integer  "sluggable_id",              null: false
     t.string   "sluggable_type", limit: 50
@@ -115,7 +118,7 @@ ActiveRecord::Schema.define(version: 20170527133706) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
   end
 
-  create_table "nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.integer  "environment_id"
     t.integer  "status"
@@ -124,13 +127,13 @@ ActiveRecord::Schema.define(version: 20170527133706) do
     t.index ["environment_id"], name: "index_nodes_on_environment_id", using: :btree
   end
 
-  create_table "organizations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "organizations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "projects", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "projects", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "key"
     t.string   "jenkins_host",                           default: ""
     t.string   "cookbook_build_job",                     default: ""
@@ -152,12 +155,11 @@ ActiveRecord::Schema.define(version: 20170527133706) do
     t.text     "chef_user_pem",            limit: 65535
     t.string   "supermarket_url"
     t.string   "chef_server_url"
-    t.string   "project_type_name"
     t.index ["key"], name: "index_projects_on_key", unique: true, using: :btree
     t.index ["slug"], name: "index_projects_on_slug", unique: true, using: :btree
   end
 
-  create_table "pull_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "pull_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "url"
     t.string   "short"
     t.integer  "status"
@@ -168,7 +170,7 @@ ActiveRecord::Schema.define(version: 20170527133706) do
     t.index ["cookbook_build_id"], name: "index_pull_requests_on_cookbook_build_id", using: :btree
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                                default: "",      null: false
     t.string   "encrypted_password",                   default: "",      null: false
     t.string   "reset_password_token"
