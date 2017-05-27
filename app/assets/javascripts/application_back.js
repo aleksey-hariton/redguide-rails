@@ -10,7 +10,12 @@
 //= require back/app
 //= require application
 //= require bootstrap-sprockets
+//= require ace-rails-ap
+//= require ace/theme-monokai
 
+var textarea = ace.edit("editor");
+textarea.setTheme("ace/theme/monokai");
+textarea.getSession().setMode("ace/mode/javascript");
 
 $(document).ready(function() {
   var table = $('.dataTable').DataTable();
