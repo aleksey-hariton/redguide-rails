@@ -11,43 +11,53 @@ module ApplicationHelper
     %Q(<i class="fa fa-#{icon}"></i>#{text})
   end
 
-  def status_label(status, with_text=true, label=true)
+  def status_label(status, with_text=true, label=true, descr='')
+    if status.kind_of? String
+      if status =='SUCCESS'
+        status =  Redguide::API::STATUS_OK
+      elsif status =='IN_PROGRESS'
+        status = Redguide::API::STATUS_IN_PROGRESS
+      else
+        status = Redguide::API::STATUS_NOK
+      end
+    end
+
     case status
       when Redguide::API::STATUS_UNKNOWN
         fa_icon = 'question'
-        description = 'Unknown'
+        description = descr.empty? ? 'Unknown': descr
         css_class = 'label-warning'
       when Redguide::API::STATUS_CANCELLED
         fa_icon = 'times'
-        description = 'Cancelled'
+        description =  descr.empty? ? 'Cancelled': descr
         css_class = 'label-danger'
       when Redguide::API::STATUS_NOK
         fa_icon = 'times'
-        description = 'Failed'
+        description = descr.empty? ? 'Failed': descr
         css_class = 'label-danger'
       when Redguide::API::STATUS_OK
         fa_icon = 'check'
-        description = 'Success'
+        description = descr.empty? ? 'Success': descr
         css_class = 'label-success'
       when Redguide::API::STATUS_SKIPPED
         fa_icon = ''
-        description = 'Skipped'
+        description = descr.empty? ? 'Skipped': descr
         css_class = 'label-default'
       when Redguide::API::STATUS_SCHEDULED
         fa_icon = 'refresh fa-spin'
-        description = 'Scheduled'
+        description = descr.empty? ? 'Scheduled': descr
         css_class = 'label-primary'
       when Redguide::API::STATUS_IN_PROGRESS
         fa_icon = 'refresh fa-spin'
-        description = 'In progress'
+        description = descr.empty? ?  'In progress': descr
         css_class = 'label-primary'
       when Redguide::API::STATUS_NOT_STARTED
         fa_icon = 'minus'
-        description = 'Not started'
+        description = descr.empty? ? 'Not started': descr
         css_class = 'label-primary'
       else
         fa_icon = 'question'
-        description = 'Unknown'
+        description = descr.empty? ? 'Unknown': descr
         css_class = 'label-warning'
     end
 

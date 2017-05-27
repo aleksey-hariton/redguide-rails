@@ -16,7 +16,10 @@ class CookbookBuild < ApplicationRecord
     job = build_job
     unless job
       job = BuildJob.new
+      job.status = Redguide::API::STATUS_SCHEDULED
+      job.save
       self.build_job_id = job.id
+      save
     end
 
     reset
