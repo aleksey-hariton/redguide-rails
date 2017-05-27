@@ -4,7 +4,8 @@ require 'json'
 
 class PullRequest < ApplicationRecord
   belongs_to :cookbook_build
-	include RedguideGit
+  include RedguideGit
+
   def check
     self.status = Redguide::API::STATUS_IN_PROGRESS
     save
@@ -27,7 +28,7 @@ class PullRequest < ApplicationRecord
 
     approve_count = pr['reviewers'].select{|p| p['approved']}.size
 
-    if git_api.pull_request_state
+    if !git_api.pull_request_state.empty?
       self.message = "Approves: #{git_api.pull_request_state.size}"
       self.status = Redguide::API::STATUS_OK
     else
