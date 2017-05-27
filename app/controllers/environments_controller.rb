@@ -44,7 +44,7 @@ class EnvironmentsController < Admin::ApplicationController
 
     respond_to do |format|
       if @environment.save
-        format.html { redirect_to @environment, notice: 'Environment was successfully created.' }
+        format.html { redirect_to organization_environment_path, notice: 'Environment was successfully created.' }
         format.json { render :show, status: :created, location: @environment}
       else
         format.html { render :new }
@@ -57,7 +57,7 @@ class EnvironmentsController < Admin::ApplicationController
   def update
     respond_to do |format|
       if @environment.update(environment_params)
-        format.html { redirect_to @environment, notice: 'Environment was successfully updated.' }
+        format.html { redirect_to organization_environment_url @environment, notice: 'Environment was successfully updated.' }
         format.json { render :show, status: :created, location: @environment}
       else
         format.html { render :edit }
@@ -92,9 +92,11 @@ class EnvironmentsController < Admin::ApplicationController
         node: @node,
         stacktrace: params[:stacktrace],
         error_passed: params[:error_passed],
-        error_msg: params[:error_msg]
+        error_msg: params[:error_msg],
+        status: params[:status]
       )
 
+      @node.save
       @error_report.save
     end
 

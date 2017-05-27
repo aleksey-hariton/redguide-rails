@@ -8,12 +8,59 @@
 
       <div class="box-body">
         <dl class="dl-horizontal">
-              <dt>Name</dt>
-              <dd><%= @environment.name %></dd>
+          <dt>Name</dt>
+          <dd><%= @environment.name %></dd>
 
-              <dt>Organization</dt>
-              <dd><%= link_to @environment.organization.name, organization_url(@environment.organization) %></dd>
+          <dt>Organization</dt>
+          <dd><%= link_to @environment.organization.name, organization_url(@environment.organization) %></dd>
 
+          <div class="box-widget">
+            <h4 class="box-title">
+              <div class="row">
+                <div class="col-xs-8">
+                  Node name
+                </div>
+                <div class="col-xs-4">Latest status</div>
+              </div>
+            </h4>
+
+            <div id="nodes-accordion" class="box-group">
+              <% nodes = @environment.nodes
+                 nodes.each do |n| %>
+                  <div class="panel box">
+                    <div class="box-header with-border">
+                      <div class="row">
+                        <div class="col-xs-8">
+                          <h4 class="box-title">
+                            <a data-toggle="collapse" data-parent="#nodes-accordion" href="#content-node<%= n.name %>" aria-expanded="false">
+                              <%= n.name %>
+                            </a>
+                          </h4>
+                        </div>
+                        <div class="col-xs-4"> <%= node_status_widget n %></div>
+                      </div>
+                    </div>
+                    <div id="content-node<%= n.name %>" class="panel-collapse collapse" aria-expanded="false">
+                      <div class="box-body">
+                        <ul class="timeline">
+                          <li class="time-label">Error reports</li>
+                          <% reports = n.error_reports.order({created_at: :desc})
+                             reports.each do |r| %>
+
+                              <li>
+                                <%= error_report_icon r %>
+                                <div class="timeline-item">
+                                  <%= r.created_at %>
+                                </div>
+                              </li>
+                          <% end %>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+              <% end %>
+            </div>
+          </div>
         </dl>
       </div>
       <div class="box-footer">

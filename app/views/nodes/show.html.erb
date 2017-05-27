@@ -8,14 +8,21 @@
 
       <div class="box-body">
         <dl class="dl-horizontal">
-              <dt>Name</dt>
-              <dd><%= @node.name %></dd>
+          <dt>Name</dt>
+          <dd><%= @node.name %></dd>
 
-              <dt>Environment</dt>
-              <dd><%= @node.environment %></dd>
+          <dt>Environment</dt>
+          <dd><%= @node.environment.name %></dd>
 
-              <dt>Status</dt>
-              <dd><%= @node.status %></dd>
+          <dt>Status</dt>
+          <dd><%=node_status_widget @node %></dd>
+
+          <dt>Stacktrace </dt>
+          <dd><%= @node.error_reports.last.stacktrace %></dd>
+
+          <dt>Error message</dt>
+          <dd><%= @node.error_reports.last.error_msg %></dd>
+
 
         </dl>
       </div>
