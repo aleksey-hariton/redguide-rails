@@ -2,6 +2,18 @@ class EnvironmentsController < Admin::ApplicationController
   before_action :set_environment, only: [:show, :edit, :update, :destroy]
   layout 'admin/layouts/admin'
 
+  before_filter :check_auth, only: [:status_update]
+  before_action :authenticate_user!
+
+  def check_auth
+    authenticate_or_request_with_http_basic do |username, password|
+      resource = User.find_by_email(username)
+      if resource && resource.valid_password?(password)
+        sign_in :user, resource
+      end
+    end
+  end
+
   # GET /environments
   def index
     @environments = []
@@ -11,6 +23,7 @@ class EnvironmentsController < Admin::ApplicationController
 
   # GET /environments/1
   def show
+    @organization = Organization.find(params[:organization_id])
   end
 
   # GET /environments/new
@@ -31,7 +44,7 @@ class EnvironmentsController < Admin::ApplicationController
 
     respond_to do |format|
       if @environment.save
-        format.html { redirect_to @environment, notice: 'Environment was successfully created.' }
+        format.html { redirect_to organization_environment_path, notice: 'Environment was successfully created.' }
         format.json { render :show, status: :created, location: @environment}
       else
         format.html { render :new }
@@ -44,7 +57,7 @@ class EnvironmentsController < Admin::ApplicationController
   def update
     respond_to do |format|
       if @environment.update(environment_params)
-        format.html { redirect_to @environment, notice: 'Environment was successfully updated.' }
+        format.html { redirect_to organization_environment_url @environment, notice: 'Environment was successfully updated.' }
         format.json { render :show, status: :created, location: @environment}
       else
         format.html { render :edit }
@@ -74,14 +87,16 @@ class EnvironmentsController < Admin::ApplicationController
     @node = Node.find_or_create_by(name: params[:node], environment: @environment)
     @node.status = params[:status].to_i
 
-    if(@node.status == Node::STATUS_NOK)
+    if @node.status == Node::STATUS_NOK
       @error_report = ErrorReport.new(
         node: @node,
         stacktrace: params[:stacktrace],
         error_passed: params[:error_passed],
-        error_msg: params[:error_msg]
+        error_msg: params[:error_msg],
+        status: params[:status]
       )
 
+      @node.save
       @error_report.save
     end
 

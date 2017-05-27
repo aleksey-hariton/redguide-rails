@@ -28,7 +28,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :stages do
+    resources :steps
+  end
+
   resources :projects do
+    resources :stages
     resources :cookbooks
     resources :changesets do
       post :build_cookbook

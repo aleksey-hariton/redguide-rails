@@ -22,7 +22,7 @@
             <% @nodes.each do |node| %>
               <tr>
                 <td><%= node.name %></td>
-                <td><%= node.environment %></td>
+                <td><%= node.environment.name %></td>
                 <td><%= node.status %></td>
                 <td>
                   <%= link_to raw('<i class="fa fa-eye"></i>'), organization_environment_nodes_path(@organization, @environment, node), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
