@@ -39,6 +39,11 @@
           <div class="form-group">
             <%= f.label :foodcritic_config, class: 'control-label' %>
             <%= f.text_area :foodcritic_config, class: 'form-control', style: 'font-family: monospace;', placeholder: '.foodcritic', rows: 7 %>
+
+            <%= f.label :ide_config, class: 'control-label' %>
+            <pre id="editor">
+              <%= f.text_area :foodcritic_config, class: 'form-control', style: 'font-family: monospace;', placeholder: '.foodcritic', rows: 7 %>
+            </pre>
           </div>
 
           <div class="form-group">
