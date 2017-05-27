@@ -7,6 +7,40 @@
       </div>
 
       <div class="box-body">
+        <div id="chart"></div>
+        <% content_for :added_scripts do %>
+            <script type="text/javascript">
+                Morris.Bar({
+                    element: 'chart',
+                    data: [
+                        <% errs = ErrorReport.connection.select_all("
+                            SELECT DATE_FORMAT(error_reports.created_at, '%m-%d-%Y') as dt,
+                            HOUR(error_reports.created_at) as hr,
+                            FLOOR( MINUTE(error_reports.created_at) / 10) as mn,
+                            status,
+                            count(id) as count
+                            FROM error_reports
+                            GROUP BY dt, hr, mn, status").to_hash %>
+                        <% errs_calculated = {}
+                        errs.each do |y|
+                         st = sprintf('%s %02d:%02d', y['dt'], y['hr'].to_i, y['mn'].to_i * 10)
+                         errs_calculated[st] ||= {}
+                         errs_calculated[st][y['status']] = y['count']
+                        end
+                        %>
+                        <% errs_calculated.each_pair do |time, val| %>
+                          { y: '<%= time %>', a: <%= val[Node::STATUS_NOK] ? val[Node::STATUS_NOK] : 0 %>, b: <%= val[Node::STATUS_OK] ? val[Node::STATUS_OK] : 0 %> },
+                        <% end %>
+                    ],
+                    xkey: 'y',
+                    ykeys: ['a', 'b'],
+                    stacked: true,
+                    barColors: ['Red', 'Green'],
+                    labels: ['Failed', 'Success']
+                });
+            </script>
+        <% end %>
+
         <dl class="dl-horizontal">
           <dt>Name</dt>
           <dd><%= @environment.name %></dd>

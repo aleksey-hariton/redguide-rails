@@ -87,18 +87,17 @@ class EnvironmentsController < Admin::ApplicationController
     @node = Node.find_or_create_by(name: params[:node], environment: @environment)
     @node.status = params[:status].to_i
 
-    if @node.status == Node::STATUS_NOK
-      @error_report = ErrorReport.new(
-        node: @node,
-        stacktrace: params[:stacktrace],
-        error_passed: params[:error_passed],
-        error_msg: params[:error_msg],
-        status: params[:status]
-      )
+    @error_report = ErrorReport.new(
+      node: @node,
+      environment: @environment,
+      stacktrace: params[:stacktrace],
+      error_passed: params[:error_passed],
+      error_msg: params[:error_msg],
+      status: params[:status]
+    )
 
-      @node.save
-      @error_report.save
-    end
+    @node.save
+    @error_report.save
 
     respond_to do |format|
       format.json {render :status_update}

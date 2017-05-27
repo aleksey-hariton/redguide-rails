@@ -2,6 +2,8 @@
 //= require jquery_ujs
 //= require back/plugins/slimScroll/jquery.slimscroll.min
 //= require back/plugins/pace/pace.min
+//= require back/plugins/morris/morris.min
+//= require back/plugins/raphael/raphael-min
 //= require back/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min
 //= require back/plugins/datatables/jquery.dataTables.min
 //= require back/plugins/datatables/dataTables.bootstrap.min
