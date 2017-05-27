@@ -23,12 +23,12 @@
       <div class="box-body">
         <div class="form-group">
           <%= f.label :name, class: 'control-label' %>
-          <%= f.text_area :name, class: 'form-control', placeholder: 'name'.humanize %>
+          <%= f.text_field :name, class: 'form-control', placeholder: 'name'.humanize %>
         </div>
 
         <div class="form-group">
           <%= f.label :content, 'Content', class: 'control-label' %>
-          <%= f.text_area :content, class: 'form-control', placeholder: 'Content' %>
+          <%= f.text_area :content, class: 'form-control', placeholder: 'Content', 'data-editor'=>'plain' %>
         </div>
 
       </div>

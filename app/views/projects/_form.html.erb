@@ -37,14 +37,11 @@
         </div>
         <!-- /basic config -->
         <div class="tab-pane" id="stages">
-          <%= link_to 'New Stage', new_project_stage_path(@project), class: "btn btn-primary" %>
-          <!-- Stages -->
-          <div class="tab-pane" id="configs">
-            <div class="box">
+          <% if @project.id  %>
 
-              <div class="box-header">
-                <h3 class="box-title">Stages</h3>
-              </div>
+
+          <!-- Stages -->
+          <div  >
 
                 <table class="table table-striped table-bordered">
                   <thead>
@@ -64,7 +61,7 @@
                           <%= link_to raw('<i class="fa fa-eye"></i>'), [@project, stage], class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
                           <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_project_stage_path(@project, stage), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
                           <%= link_to raw('<i class="fa fa-trash"></i>'), [@project, stage], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
-                          <%= link_to 'Add Step', new_project_stage_step_path(@project,stage), class: 'btn btn-primary' %>
+                          <%= link_to 'Add Step', new_project_stage_step_path(@project,stage), class: 'btn btn-sm btn-default btn-flat' %>
                         </td>
                         <td>
                           <% stage.steps.each do |step| %>
@@ -75,27 +72,43 @@
                   <% end %>
                   </tbody>
                 </table>
-            </div>
+            <%= link_to 'New Stage', new_project_stage_path(@project), class: "btn btn-primary btn-sm" %>
           </div>
-
+          <% else %>
+           Please save the project first, then create stages
+          <% end %>
         </div>
         <!-- /stages -->
         <div class="tab-pane" id="configs">
-          <div class="form-group">
+          <% if @project.id %>
 
-            <%= f.label :foodcritic_config, class: 'control-label' %>
-            <%= f.text_area :foodcritic_config, class: 'form-control', style: 'font-family: monospace', 'data-editor'=>'ruby'%>
-          </div>
+                  <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th></th>
+                    </tr>
+                    </thead>
 
-          <div class="form-group">
-            <%= f.label :cookstyle_config, class: 'control-label' %>
-            <%= f.text_area :cookstyle_config, class: 'form-control', style: 'font-family: monospace;', 'data-editor'=>'ruby' %>
-          </div>
+                    <tbody>
+                    <% @project.prconfigs.each do |prconfig| %>
+                        <tr>
+                          <td><%= prconfig.name %></td>
+                          <td>
+                            <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_project_prconfig_path(@project, prconfig), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                            <%= link_to raw('<i class="fa fa-trash"></i>'), [@project, prconfig], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                          </td>
+                        </tr>
+                    <% end %>
+                    </tbody>
+                  </table>
 
-          <div class="form-group">
-            <%= f.label :kitchen_config, class: 'control-label' %>
-            <%= f.text_area :kitchen_config, class: 'form-control', style: 'font-family: monospace;', 'data-editor'=>'ruby' %>
-          </div>
+              <%= link_to 'New config', new_project_prconfig_path(@project), class: "btn btn-primary btn-sm" %>
+
+          <% else %>
+            Please save the project first, then create configs
+          <%end %>
+
         </div>
         <!-- /configs -->
         <div class="tab-pane" id="jenkins_options">
