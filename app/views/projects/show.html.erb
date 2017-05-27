@@ -57,8 +57,16 @@
           </button>
         </div>
       </div>
+      <p style="text-indent:10px">
+        <%= image_tag("#{@project.project_type_name.downcase}.png", size: "32") %>
+      </p>
 
       <div class="box-body">
+        <b>Project type:</b>
+        <p>
+          <%= @project.project_type_name %>
+        </p>
+
         <b>Jenkins host:</b>
         <p>
           <%= link_to @project.jenkins_host, "http://#{@project.jenkins_host}/" %>
