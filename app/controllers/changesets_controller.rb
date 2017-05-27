@@ -1,5 +1,5 @@
 class ChangesetsController < Admin::ApplicationController
-  before_action :set_changeset, only: [:show, :edit, :update, :destroy, :build_cookbook, :stage_status, :check_pr, :build_details]
+  before_action :set_changeset, only: [:show, :edit, :update, :destroy, :build_cookbook, :build_stage, :stage_status, :check_pr, :build_details]
   before_action :set_project
 
   layout 'admin/layouts/admin'
@@ -19,6 +19,21 @@ class ChangesetsController < Admin::ApplicationController
 
   def build_cookbook
     build = @changeset.cookbook_builds.find(params[:cookbook_build_id])
+    build.build
+  end
+
+  def build_stage
+    build = @changeset.stage_builds.find_by(
+      stage_id: params[:project_stage_id],
+      changeset_id: @changeset.id
+    )
+    unless build
+      build = StageBuild.new(
+        stage_id: params[:project_stage_id],
+        changeset_id: @changeset.id
+      )
+      build.save
+    end
     build.build
   end
 

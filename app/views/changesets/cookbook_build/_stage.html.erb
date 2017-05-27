@@ -1,0 +1,70 @@
+<!-- STAGES -->
+
+<div class="row" id="stage-build" data-id="<%= @changeset.slug %>" data-project="<%= @project.slug %>">
+  <div class="col-md-12">
+    <div class="box box-default">
+
+      <div class="box-header">
+        <h3 class="box-title"><%= stage.description %></h3>
+      </div>
+      <div class="box-body">
+        <div class="row">
+
+          <% stage_build = StageBuild.find_by(stage_id: stage.id, changeset_id: @changeset.id) %>
+          <% @stages =  (JSON.parse(stage_build.build_job.stages)) %>
+
+          <% steps = stage.steps %>
+          <% @stages.each do |stage| %>
+
+
+              <div class="col-md-4">
+
+                <% if stage['status'] == 'SUCCESS' %>
+                    <% color = "info-box bg-green" %>
+                <% elsif stage['status'] == 'FAILED' %>
+                    <% color = "info-box bg-red" %>
+                <% elsif stage['status'] == 'IN_PROGRESS' %>
+                    <% color = "info-box bg-orange" %>
+                <% else %>
+                    <% color = "info-box bg-white" %>
+                <% end %>
+
+            <div class="<%= color %>">
+
+              <% step_icon = steps.select{|x| x.name == stage['name']}.first %>
+              <%
+                icon = step_icon ? step_icon.icon : 'building'
+                icon = 'refresh fa-spin' if stage['status'] == 'IN_PROGRESS'
+              %>
+              <span class="info-box-icon"><i class="fa fa-<%= icon %>"></i></span>
+
+              <div class="info-box-content">
+
+            <span class="info-box-number">  <%= stage['name'] %></span>
+
+                <span class="info-box-text"> <%= stage['status'] %></span>
+
+              </div>
+            </div>
+          </div>
+
+          <% end %>
+        </div>
+      </div>
+      <td>
+        <div class="btn-group">
+          <!--% if build.can_rebuild? %-->
+              <%=
+                link_to icon('play','Test').html_safe,
+                        project_changeset_build_stage_path(@project, @changeset, { project_stage_id: stage.id }),
+                        method: :post,
+                        remote: true,
+                        class: 'btn btn-sm btn-default btn-flat btn-start-process',
+                        title: 'Start Test'
+              %>
+          <!--% end %-->
+        </div>
+      </td>
+    </div>
+  </div>
+</div>
