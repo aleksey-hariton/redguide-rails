@@ -46,5 +46,4 @@ class Project < ApplicationRecord
 
   has_many :cookbooks
   has_many :changesets
-  has_many :stages
 end
