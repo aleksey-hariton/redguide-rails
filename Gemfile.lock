@@ -5,6 +5,15 @@ GIT
     redguide-api (0.1.0)
       rest-client
 
+PATH
+  remote: /home/ror/redguide-cli
+  specs:
+    redguide-cli (0.1.0)
+      git
+      redguide-api
+      semver
+      thor
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -122,6 +131,7 @@ GEM
     formatador (0.2.5)
     friendly_id (5.2.0)
       activerecord (>= 4.0.0)
+    git (1.3.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     gravtastic (3.2.6)
@@ -305,6 +315,7 @@ GEM
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
+    semver (1.0.1)
     sendgrid (1.2.4)
       json
     shellany (0.0.1)
@@ -403,6 +414,7 @@ DEPENDENCIES
   rb-fsevent
   rb-inotify
   redguide-api!
+  redguide-cli!
   rspec-rails
   rubocop
   sass-rails (~> 5.0)
@@ -422,4 +434,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.13.7
+   1.15.0

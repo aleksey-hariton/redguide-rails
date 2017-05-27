@@ -83,3 +83,5 @@ group :development, :test do
   gem 'rubocop'
   gem 'byebug', platform: :mri
 end
+
+gem 'redguide-cli', path: '/home/ror/redguide-cli'
