@@ -12,6 +12,10 @@ class PrconfigsController < Api::ApiController
     def show
     end
 
+    def get_by_name
+      @conf = Prconfig.find_by(name: params[:name])
+    end
+
     # POST /prconfigs
     def create
     end
@@ -19,10 +23,7 @@ class PrconfigsController < Api::ApiController
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_prconfig
-        puts '-----------------------------------------'
-        puts "ID: #{params[:id]}"
         @prconfig = Prconfig.find(params[:id])
-        puts "PRCONFIG: #{@prconfig}"
       end
 
       # Use callbacks to share common setup or constraints between actions.
