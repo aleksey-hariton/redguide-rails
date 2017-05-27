@@ -1,5 +1,5 @@
 <section class="content-header">
-  <h1> <%= params[:controller].split('/').last.humanize %> </h1>
+  <h1> <%= content_for?(:page_title) ? yield(:page_title) : params[:controller].split('/').last.humanize %> </h1>
   <ol class="breadcrumb">
     <%
       s = ''

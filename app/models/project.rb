@@ -2,6 +2,8 @@ class Project < ApplicationRecord
   extend FriendlyId
   friendly_id :key, use: :slugged
 
+  PROJECT_TYPES = {0 => 'Chef', 1 => 'Puppet', 2 => 'Ansible', 3 => 'SaltStack' }
+
   validates :key,
             presence: true,
             format: {
@@ -46,4 +48,6 @@ class Project < ApplicationRecord
 
   has_many :cookbooks
   has_many :changesets
+  has_many :stages
+  has_many :prconfigs
 end

@@ -1,31 +1,39 @@
 <aside class="main-sidebar">
   <section class="sidebar">
 
-    <div class="user-panel">
-      <div class="pull-left image">
-        <%= image_tag user_avatar(48), class: "img-circle" %>
-      </div>
-      <div class="pull-left info">
-        <p><%= current_user.name %></p>
-        <%= link_to '<i class="fa fa-circle text-success"></i><span>Online</span>'.html_safe, admin_root_path %>
-      </div>
-    </div>
-
-    <form action="#" method="get" class="sidebar-form">
-      <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Search...">
-        <span class="input-group-btn">
-          <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-            <i class="fa fa-search"></i>
-          </button>
-        </span>
-      </div>
-    </form>
-
     <ul class="sidebar-menu">
       <li class="header"><%= t('admin.sidebar.main_navigation') %></li>
       <li> <%= link_to '<i class="fa fa-dashboard"></i><span>Dashboard</span>'.html_safe, admin_root_path %> </li>
-      <li> <%= link_to '<i class="fa fa-list"></i><span>Projects</span>'.html_safe, projects_path %> </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-list"></i>
+          <span>Projects</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <% Project.all.each do |p| %>
+            <li> <%= link_to %Q(<i class="fa fa-gear"></i><span>#{p.key}</span>).html_safe, p%> </li>
+          <% end %>
+        </ul>
+      </li>
+
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-sitemap"></i>
+          <span>Organizations</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <% Organization.all.each do |o| %>
+              <li> <%= link_to %Q(<i class="fa fa-gear"></i><span>#{o.name}</span>).html_safe, o%> </li>
+          <% end %>
+        </ul>
+      </li>
+
 
       <li class="header"><%= t('admin.sidebar.administration') %></li>
       <li class="treeview">

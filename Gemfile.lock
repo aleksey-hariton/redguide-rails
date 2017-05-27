@@ -8,6 +8,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    ace-rails-ap (4.1.2)
     actioncable (5.0.1)
       actionpack (= 5.0.1)
       nio4r (~> 1.2)
@@ -362,6 +363,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ace-rails-ap
   better_errors
   bootstrap-sass (~> 3.3.6)
   byebug
@@ -422,4 +424,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.13.7
+   1.15.0

@@ -3,6 +3,8 @@ require 'fileutils'
 
 class BuildJob < ApplicationRecord
 
+  include JenkinsApi::UriHelper
+
   def build(job, params)
     jenkins = JenkinsApi::Client.new(
         server_url: params[:jenkins][:host],
@@ -20,11 +22,13 @@ class BuildJob < ApplicationRecord
     build = jenkins.job.get_build_details(job, build_id)
     self.status = Redguide::API::STATUS_IN_PROGRESS
     self.url = build['url']
+    self.stages = get_stages(jenkins, job, build_id)
     save
 
     # Need this to save console log on first check if job already finished
     build['building'] = true
     log_offset = 0
+
     while build['building']
       build = jenkins.job.get_build_details(job, build_id)
       if log_file
@@ -40,7 +44,10 @@ class BuildJob < ApplicationRecord
       if build['duration'] > 0
         self.duration = build['duration'] / 1000
       end
+
+      self.stages = get_stages(jenkins, job, build_id)
       save
+
       sleep 1
     end
 
@@ -128,6 +135,21 @@ class BuildJob < ApplicationRecord
   end
 
   private
+
+  def get_stages(jenkins, job, build_id)
+    stages = []
+    req = jenkins.api_get_request("/job/#{path_encode job }/#{build_id}/wfapi/describe")['stages']
+    req.each do |stage|
+      stages << {
+        :id => stage['id'],
+        :name => stage['name'],
+        :status => stage['status'],
+        :durationMillis => stage['durationMillis']
+      }
+    end
+    stages.to_json
+  end
+
   def create_log_dir(log_file)
     log_dir = File.dirname(log_file)
     FileUtils.mkdir_p(log_dir) unless File.exists?(log_dir)

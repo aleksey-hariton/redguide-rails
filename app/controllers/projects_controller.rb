@@ -75,13 +75,11 @@ class ProjectsController < Admin::ApplicationController
           :vcs_server_user_password,
           :vcs_server_project,
           :environment_build_job,
-          :foodcritic_config,
-          :cookstyle_config,
-          :kitchen_config,
           :chef_server_url,
           :chef_user,
           :chef_user_pem,
-          :supermarket_url
+          :supermarket_url,
+          :project_type_name
       )
     end
 end

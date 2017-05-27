@@ -11,18 +11,20 @@
             <%= render partial: 'changesets/cookbook_build/hint_run_redguide' %>
         <% else %>
             <table class="table table-bordered table-striped table-hover">
+              <% @stages = (JSON.parse(cookbooks.first.build_job.stages)) %>
               <tr>
                 <th></th>
                 <th>Name</th>
                 <th style="min-width: 90px;">Progress</th>
-                <th>FoodCritic</th>
-                <th>CookStyle</th>
-                <th>RSpec</th>
-                <th>Kitchen</th>
-                <th>Approval</th>
-                <th>Publish</th>
+                <% @stages.each do |stage| %>
+                    <th><%= stage['name'] %></th>
+                <% end %>
+                <th></th>
+                <th></th>
                 <th></th>
               </tr>
+
+
               <% cookbooks.each do |build| %>
                   <tr>
                     <td class="text-center">
@@ -45,18 +47,9 @@
                         <td>
                           <%= render partial: 'shared/build_job_status', locals: {build: build} %>
                         </td>
-                        <td>
-                          <%= status_label(build.foodcritic_status) %>
-                        </td>
-                        <td>
-                          <%= status_label(build.cookstyle_status) %>
-                        </td>
-                        <td>
-                          <%= status_label(build.rspec_status) %>
-                        </td>
-                        <td>
-                          <%= status_label(build.kitchen_status) %>
-                        </td>
+                        <% (JSON.parse(build.build_job.stages)).each do |stage| %>
+                            <td><%= status_label stage['status'] %>
+                        <% end %>
                         <td>
                           <%= render partial: 'changesets/cookbook_build/pr_status', locals: {build: build} %>
                         </td>
@@ -95,7 +88,7 @@
       </div>
 
       <div class="box-footer">
-        <%= link_to 'Back', project_changesets_path, class: 'btn btn-default' %>
+        <%= link_to 'Back', project_path(@project), class: 'btn btn-default' %>
         <%= link_to 'Edit', edit_project_changeset_path(@project, @changeset), class: 'btn btn-primary' %>
       </div>
     </div>
