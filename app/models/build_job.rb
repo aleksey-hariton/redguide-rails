@@ -28,6 +28,7 @@ class BuildJob < ApplicationRecord
     # Need this to save console log on first check if job already finished
     build['building'] = true
     log_offset = 0
+
     while build['building']
       build = jenkins.job.get_build_details(job, build_id)
       if log_file
@@ -43,8 +44,10 @@ class BuildJob < ApplicationRecord
       if build['duration'] > 0
         self.duration = build['duration'] / 1000
       end
+
       self.stages = get_stages(jenkins, job, build_id)
       save
+
       sleep 1
     end
 

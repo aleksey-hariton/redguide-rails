@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     resources :cookbooks
     resources :changesets do
       post :build_cookbook
+      post :build_stage
       post :check_pr
       get :stage_status
       get :console
