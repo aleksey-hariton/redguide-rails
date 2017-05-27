@@ -23,6 +23,6 @@ module ErrorReportsHelper
         css_class = 'bg-yellow'
     end
 
-     %Q(<i class="fa fa-#{fa_icon} #{css_class}" > &nbsp; </i>).html_safe
+     %Q(<i class="fa fa-#{fa_icon} #{css_class}" ></i>).html_safe
   end
 end
