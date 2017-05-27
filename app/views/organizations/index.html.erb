@@ -19,12 +19,7 @@
           <tbody>
             <% @organizations.each do |organization| %>
               <tr>
-                <td><%= organization.name %></td>
-                <td>
-                  <%= link_to raw('<i class="fa fa-eye"></i>'), organization, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
-                  <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_organization_path(organization), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
-                  <%= link_to raw('<i class="fa fa-trash"></i>'), organization, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
-                </td>
+                <td><%= link_to  organization.name, organization %></td>
               </tr>
             <% end %>
           </tbody>
@@ -34,7 +29,6 @@
 
       <div class="box-footer">
         <%= link_to 'Back', organizations_path, class: 'btn btn-default' %>
-        <%= link_to 'New Organization', new_organization_path, class: "btn btn-primary" %>
       </div>
     </div>
   </div>

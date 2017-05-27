@@ -1,5 +1,5 @@
 class OrganizationsController < Admin::ApplicationController
-  before_action :set_organization, only: [:show, :edit, :update, :destroy]
+  before_action :set_organization, only: [:show,]
   layout 'admin/layouts/admin'
 
   # GET /organizations
@@ -11,14 +11,6 @@ class OrganizationsController < Admin::ApplicationController
   def show
   end
 
-  # GET /organizations/new
-  def new
-    @organization = Organization.new
-  end
-
-  # GET /organizations/1/edit
-  def edit
-  end
 
   # POST /organizations
   def create
@@ -32,29 +24,6 @@ class OrganizationsController < Admin::ApplicationController
         format.html { render :new }
         format.json { render json: @organization.errors, status: :unprocessable_entity}
       end
-    end
-  end
-
-  # PATCH/PUT /organizations/1
-  def update
-    respond_to do |format|
-      if @organization.update(organization_params)
-        format.html { redirect_to @organization, notice: 'Organization was successfully updated.' }
-        format.json { render :show, status: :updated, location: @organization}
-      else
-        format.html { render :edit }
-        format.json { render json: @organization.errors, status: :unprocessable_entity}
-      end
-    end
-  end
-
-  # DELETE /organizations/1
-  def destroy
-    @organization.destroy
-    respond_to do |format|
-      format.html { redirect_to organizations_url, notice: 'Organization was successfully destroyed.' }
-      format.json { head :no_content}
-
     end
   end
 

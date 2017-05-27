@@ -37,18 +37,19 @@
         <!-- /basic config -->
         <div class="tab-pane" id="configs">
           <div class="form-group">
+
             <%= f.label :foodcritic_config, class: 'control-label' %>
-            <%= f.text_area :foodcritic_config, class: 'form-control', style: 'font-family: monospace;', placeholder: '.foodcritic', rows: 7 %>
+            <%= f.text_area :foodcritic_config, class: 'form-control', style: 'font-family: monospace', 'data-editor'=>'ruby'%>
           </div>
 
           <div class="form-group">
             <%= f.label :cookstyle_config, class: 'control-label' %>
-            <%= f.text_area :cookstyle_config, class: 'form-control', style: 'font-family: monospace;', placeholder: '.rubocop.yml', rows: 7 %>
+            <%= f.text_area :cookstyle_config, class: 'form-control', style: 'font-family: monospace;', 'data-editor'=>'ruby' %>
           </div>
 
           <div class="form-group">
             <%= f.label :kitchen_config, class: 'control-label' %>
-            <%= f.text_area :kitchen_config, class: 'form-control', style: 'font-family: monospace;', placeholder: '.kitchen.local.yml', rows: 7 %>
+            <%= f.text_area :kitchen_config, class: 'form-control', style: 'font-family: monospace;', 'data-editor'=>'ruby' %>
           </div>
         </div>
         <!-- /configs -->

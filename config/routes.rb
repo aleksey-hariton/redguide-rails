@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     end
   end
 
+
   resources :projects do
     resources :prconfigs
     resources :cookbooks
