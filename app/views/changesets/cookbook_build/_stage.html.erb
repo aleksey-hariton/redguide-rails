@@ -12,13 +12,31 @@
 
           <% stage_build = StageBuild.find_by(stage_id: stage.id, changeset_id: @changeset.id) %>
           <% @stages =  (JSON.parse(stage_build.build_job.stages)) %>
+
+          <% steps = stage.steps %>
           <% @stages.each do |stage| %>
 
 
+              <div class="col-md-4">
 
-          <div class="col-md-4">
-            <div class="info-box bg-green">
-              <span class="info-box-icon"><i class="fa fa-building"></i></span>
+                <% if stage['status'] == 'SUCCESS' %>
+                    <% color = "info-box bg-green" %>
+                <% elsif stage['status'] == 'FAILED' %>
+                    <% color = "info-box bg-red" %>
+                <% elsif stage['status'] == 'IN_PROGRESS' %>
+                    <% color = "info-box bg-orange" %>
+                <% else %>
+                    <% color = "info-box bg-white" %>
+                <% end %>
+
+            <div class="<%= color %>">
+
+              <% step_icon = steps.select{|x| x.name == stage['name']}.first %>
+              <%
+                icon = step_icon ? step_icon.icon : 'building'
+                icon = 'refresh fa-spin' if stage['status'] == 'IN_PROGRESS'
+              %>
+              <span class="info-box-icon"><i class="fa fa-<%= icon %>"></i></span>
 
               <div class="info-box-content">
 
