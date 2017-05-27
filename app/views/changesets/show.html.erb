@@ -2,6 +2,9 @@
 
 <%= render partial: 'changesets/cookbook_build/cookbooks', locals: {cookbooks: @changeset.cookbook_builds, project: @project, changeset: @changeset} %>
 
-<div id="build-details">
 
+
+<%= render partial: 'changesets/cookbook_build/stage', collection: @changeset.project.stages %>
+
+<div id="build-details">
 </div>
