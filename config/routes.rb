@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     end
   end
 
+
   resources :projects do
     resources :stages do
       resources :steps

@@ -9,8 +9,8 @@
       <div class="box-body">
 
         <div class="box-widget">
+          <h4 class="box-title">Environments</h4>
           <table class="table table-bordered table-striped table-hover">
-            <h4 class="box-title">Environments</h4>
             <% envs = @organization.environments
                envs.each do |e|%>
                 <%= render partial: 'environments/environment', locals: {environment: e} %>
@@ -21,7 +21,6 @@
 
       <div class="box-footer">
         <%= link_to 'Back', organizations_path, class: 'btn btn-default' %>
-        <%= link_to 'Edit', edit_organization_path(@organization), class: "btn btn-primary" %>
       </div>
     </div>
   </div>
