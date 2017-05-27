@@ -11,7 +11,8 @@
         <table class="table table-striped table-bordered">
           <thead>
             <tr>
-              <th>Key</th>
+              <th>Type</th>
+              <th>Project</th>
               <th>Description</th>
               <th></th>
             </tr>
@@ -20,7 +21,10 @@
           <tbody>
             <% @projects.each do |project| %>
               <tr>
-                <td><%= project.key %></td>
+                <td>
+                  <%= image_tag("#{project.project_type_name.downcase}.png", size: "32") %>
+                </td>
+                <td><%= link_to project.key, project %></td>
                 <td><%= project.description %></td>
                 <td>
                   <%= link_to raw('<i class="fa fa-eye"></i>'), project, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
@@ -30,6 +34,7 @@
               </tr>
             <% end %>
           </tbody>
+
         </table>
 
       </div>
@@ -43,4 +48,3 @@
 </div>
 
 <br>
-

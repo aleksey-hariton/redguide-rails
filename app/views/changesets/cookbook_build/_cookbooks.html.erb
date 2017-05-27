@@ -87,8 +87,10 @@
         <% end %>
       </div>
 
-
+      <div class="box-footer">
+        <%= link_to 'Back', project_path(@project), class: 'btn btn-default' %>
+        <%= link_to 'Edit', edit_project_changeset_path(@project, @changeset), class: 'btn btn-primary' %>
+      </div>
     </div>
   </div>
-
 </div>
