@@ -9,30 +9,15 @@
           <%= @project.key %>
         </h3>
       </div>
+      <p style="text-indent:10px">
+        <%= image_tag("#{@project.project_type_name.downcase}.png", size: "32") %>
+      </p>
 
       <div class="box-body">
         <b>Project type:</b>
         <p>
           <%= @project.project_type_name %>
         </p>
-        <% case @project.project_type_name %>
-          <% when "SaltStack" %>
-          <div >
-            <%= image_tag("saltstack.png", size: "48") %>
-          </div>
-          <% when "Chef" %>
-          <div >
-            <%= image_tag("chef.png", size: "48") %>
-          </div>
-          <% when "Puppet" %>
-          <div >
-            <%= image_tag("puppet.png", size: "48") %>
-          </div>
-          <% when "Ansible" %>
-          <div >
-            <%= image_tag("ansible.png", size: "48") %>
-          </div>
-        <% end %>
 
         <b>Jenkins host:</b>
         <p>

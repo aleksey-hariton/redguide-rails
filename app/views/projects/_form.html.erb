@@ -31,19 +31,17 @@
           </div>
 
           <div class="form-group">
-            <%= f.label :description, class: 'control-label' %>
-            <%= f.text_area :description, class: 'form-control', rows: 4, placeholder: 'description'.humanize %>
-          </div>
-
-          <div class="form-group">
             <%= f.label :project_type, class: 'control-label' %>
-            <%= f.select :project_type_name, options_for_select(Project::PROJECT_TYPES.values, @project.project_type_name) %>
+            <p>
+              <%= f.select :project_type_name, options_for_select(Project::PROJECT_TYPES.values, @project.project_type_name) %>
+            </p>
           </div>
 
           <div class="form-group">
             <%= f.label :description, class: 'control-label' %>
             <%= f.text_area :description, class: 'form-control', rows: 4, placeholder: 'description'.humanize %>
           </div>
+
         </div>
         <!-- /basic config -->
         <div class="tab-pane" id="stages">
