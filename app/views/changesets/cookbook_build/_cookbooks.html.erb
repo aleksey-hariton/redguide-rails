@@ -11,12 +11,13 @@
             <%= render partial: 'changesets/cookbook_build/hint_run_redguide' %>
         <% else %>
             <table class="table table-bordered table-striped table-hover">
-              <% @stages = (JSON.parse(cookbooks.first.build_job.stages)) %>
+              <% _stages = (JSON.parse(cookbooks.first.build_job.stages)) if cookbooks.first && cookbooks.first.build_job && cookbooks.first.build_job.stages %>
+              <% _stages ||= [] %>
               <tr>
                 <th></th>
                 <th>Name</th>
                 <th style="min-width: 90px;">Progress</th>
-                <% @stages.each do |stage| %>
+                <% _stages.each do |stage| %>
                     <th><%= stage['name'] %></th>
                 <% end %>
                 <th></th>
@@ -47,7 +48,7 @@
                         <td>
                           <%= render partial: 'shared/build_job_status', locals: {build: build} %>
                         </td>
-                        <% (JSON.parse(build.build_job.stages)).each do |stage| %>
+                        <% _stages.each do |stage| %>
                             <td><%= status_label stage['status'] %>
                         <% end %>
                         <td>

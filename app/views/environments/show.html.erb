@@ -1,3 +1,8 @@
+<% content_for :page_title do %>
+    <%= @environment.name %>
+<% end %>
+
+
 <div class="row">
   <div class="col-xs-12">
     <div class="box">
@@ -10,42 +15,60 @@
 
         <div class="row" style="margin-bottom: 4em">
           <div class="col-md-8">
-            <div id="chart" style="height: 300px; width: 100%">
-              <% content_for :added_scripts do %>
-                  <script type="text/javascript">
-                      Morris.Area({
-                          element: 'chart',
-                          data: [
-                              <% errs = ErrorReport.connection.select_all("
-                                  SELECT DATE_FORMAT(error_reports.created_at, '%d-%m-%Y') as dt,
-                                  HOUR(error_reports.created_at) as hr,
-                                  FLOOR( MINUTE(error_reports.created_at) / 10) as mn,
-                                  status,
-                                  count(id) as count
-                                  FROM error_reports
-                                  GROUP BY dt, hr, mn, status").to_hash %>
-                              <% errs_calculated = {}
-                              errs.each do |y|
-                               st = sprintf('%s %02d:%02d', y['dt'], y['hr'].to_i, y['mn'].to_i * 10)
-                               errs_calculated[st] ||= {}
-                               errs_calculated[st][y['status']] = y['count']
-                              end
-                              %>
-                              <% errs_calculated.each_pair do |time, val| %>
-                              { y: '<%= time %>', a: <%= val[Node::STATUS_NOK] ? val[Node::STATUS_NOK] : 0 %>, b: <%= val[Node::STATUS_OK] ? val[Node::STATUS_OK] : 0 %> },
-                              <% end %>
-                          ],
-                          xkey: 'y',
-                          ykeys: ['a', 'b'],
-                          stacked: true,
-                          lineColors: ['#f56954', '#00a65a'],
-                          labels: ['Failed', 'Success']
-                      });
-                  </script>
-              <% end %>
-            </div>
+            <div id="chart" style="height: 300px; width: 100%"></div>
+          </div>
+          <div class="col-md-4">
+            <div id="nodes-status"></div>
           </div>
         </div>
+
+
+        <% content_for :added_scripts do %>
+            <script type="text/javascript">
+
+
+                Morris.Donut({
+                    element: 'nodes-status',
+                    data: [
+                        {label: "Failed", value: <%= @environment.nodes.where(status: Node::STATUS_NOK).size %>},
+                        {label: "OK", value: <%= @environment.nodes.where(status: Node::STATUS_OK).size %>}
+                    ],
+                    colors: ['#f56954', '#00a65a']
+                });
+
+
+
+                //CHARTS
+                Morris.Area({
+                    element: 'chart',
+                    data: [
+                        <% errs = ErrorReport.connection.select_all("
+                            SELECT DATE_FORMAT(error_reports.created_at, '%d-%m-%Y') as dt,
+                            HOUR(error_reports.created_at) as hr,
+                            FLOOR( MINUTE(error_reports.created_at) / 10) as mn,
+                            status,
+                            count(id) as count
+                            FROM error_reports
+                            GROUP BY dt, hr, mn, status").to_hash %>
+                        <% errs_calculated = {}
+                        errs.each do |y|
+                         st = sprintf('%s %02d:%02d', y['dt'], y['hr'].to_i, y['mn'].to_i * 10)
+                         errs_calculated[st] ||= {}
+                         errs_calculated[st][y['status']] = y['count']
+                        end
+                        %>
+                        <% errs_calculated.each_pair do |time, val| %>
+                        { y: '<%= time %>', a: <%= val[Node::STATUS_NOK] ? val[Node::STATUS_NOK] : 0 %>, b: <%= val[Node::STATUS_OK] ? val[Node::STATUS_OK] : 0 %> },
+                        <% end %>
+                    ],
+                    xkey: 'y',
+                    ykeys: ['a', 'b'],
+                    stacked: true,
+                    lineColors: ['#f56954', '#00a65a'],
+                    labels: ['Failed', 'Success']
+                });
+            </script>
+        <% end %>
 
       </div>
       <div class="box-footer">
