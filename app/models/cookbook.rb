@@ -9,8 +9,8 @@ class Cookbook < ApplicationRecord
   validates :name,
             presence: true,
             format: {
-                with: /\A[\w]+\z/,
-                message: 'supports only letters, digits and "_"'
+                with: /\A[\w-]+\z/,
+                message: 'supports only letters, digits and "-/_"'
             },
             uniqueness: {
                 scope: :project,
