@@ -11,6 +11,7 @@
         <div class="row">
 
           <% stage_build = StageBuild.find_by(stage_id: stage.id, changeset_id: @changeset.id) %>
+<% if stage_build && stage_build.build_job && stage_build.build_job.stages %>
           <% @stages =  (JSON.parse(stage_build.build_job.stages)) %>
 
           <% steps = stage.steps %>
@@ -49,6 +50,7 @@
           </div>
 
           <% end %>
+<% end %>
         </div>
       </div>
       <td>
