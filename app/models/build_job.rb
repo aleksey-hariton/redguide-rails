@@ -134,6 +134,14 @@ class BuildJob < ApplicationRecord
     save
   end
 
+  def console_url
+    File.join(url, 'console')
+  end
+
+  def build_number
+    File.basename(url)
+  end
+
   private
 
   def get_stages(jenkins, job, build_id)
