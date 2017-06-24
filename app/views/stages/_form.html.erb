@@ -31,10 +31,16 @@
           <%= f.text_field :description, class: 'form-control', placeholder: 'Description' %>
         </div>
 
+        <div class="form-group">
+          <%= f.label :jenkins_job, 'Jenkins JOB', class: 'control-label' %>
+          <%= f.text_field :jenkins_job, class: 'form-control', placeholder: 'Jenkins JOB' %>
+        </div>
+
+
       </div>
 
       <div class="box-footer">
-        <%= link_to 'Back', project_stages_path, class: 'btn btn-default' %>
+        <%= link_to 'Back', edit_project_path(@project,tab: :stages), class: 'btn btn-default' %>
         <%= f.submit class: 'btn btn-success' %>
       </div>
     </div>

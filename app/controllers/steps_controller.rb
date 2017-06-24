@@ -33,7 +33,7 @@ class StepsController < ApplicationController
     @step.stage = @stage
 
     if @step.save
-      redirect_to [@stage.project, @stage], notice: 'Step was successfully created.'
+      redirect_to edit_project_path(@project,tab: :stages), notice: 'Step was successfully created.'
     else
       render :new
     end
@@ -56,7 +56,7 @@ class StepsController < ApplicationController
 
 
     if @step.update(_params)
-      redirect_to @project, notice: 'Step was successfully updated.'
+      redirect_to [@stage.project, @stage], notice: 'Step was successfully updated.'
     else
       render :edit
     end
@@ -65,7 +65,7 @@ class StepsController < ApplicationController
   # DELETE /Steps/1
   def destroy
     @step.destroy
-    redirect_to projects_url, notice: 'Project was successfully destroyed.'
+    redirect_to [@stage.project, @stage], notice: 'Project was successfully destroyed.'
   end
 
   private

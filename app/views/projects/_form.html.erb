@@ -16,15 +16,15 @@
   <div class="col-xs-12">
     <div class="nav-tabs-custom">
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#basic_config" data-toggle="tab"><%= icon('id-card', 'Project').html_safe %></a></li>
-        <li><a href="#stages" data-toggle="tab"><%= icon('bars', 'Stages').html_safe %></a></li>
-        <li><a href="#configs" data-toggle="tab"><%= icon('file-text', 'Config files').html_safe %></a></li>
-        <li><a href="#jenkins_options" data-toggle="tab"><%= icon('truck', 'Jenkins').html_safe %></a></li>
-        <li><a href="#vcs_options" data-toggle="tab"><%= icon('git', 'VCS').html_safe %></a></li>
-        <li><a href="#chef_options" data-toggle="tab"><%= icon('shopping-cart', 'Chef/Supermarket').html_safe %></a></li>
+        <li class="<%= 'active' if !params[:tab] or params[:tab] == 'basic_config' %>"><a href="#basic_config" data-toggle="tab"><%= icon('id-card', 'Project').html_safe %></a></li>
+        <li class="<%= 'active' if params[:tab] == 'stages' %>"><a href="#stages" data-toggle="tab"><%= icon('bars', 'Stages').html_safe %></a></li>
+        <li class="<%= 'active' if params[:tab] == 'configs' %>"><a href="#configs" data-toggle="tab"><%= icon('file-text', 'Config files').html_safe %></a></li>
+        <li class="<%= 'active' if params[:tab] == 'jenkins_options' %>"><a href="#jenkins_options" data-toggle="tab"><%= icon('truck', 'Jenkins').html_safe %></a></li>
+        <li class="<%= 'active' if params[:tab] == 'vcs_options' %>"><a href="#vcs_options" data-toggle="tab"><%= icon('git', 'VCS').html_safe %></a></li>
+        <li class="<%= 'active' if params[:tab] == 'chef_options' %>"><a href="#chef_options" data-toggle="tab"><%= icon('shopping-cart', 'Chef/Supermarket').html_safe %></a></li>
       </ul>
       <div class="tab-content">
-        <div class="tab-pane active" id="basic_config">
+        <div class="tab-pane <%= 'active' if !params[:tab] or params[:tab] == 'basic_config' %>" id="basic_config">
           <div class="form-group">
             <%= f.label :key, class: 'control-label' %>
             <%= f.text_field :key, class: 'form-control', placeholder: 'key'.humanize %>
@@ -44,7 +44,7 @@
 
         </div>
         <!-- /basic config -->
-        <div class="tab-pane" id="stages">
+        <div class="tab-pane <%= 'active' if params[:tab] == 'stages' %>" id="stages">
           <% if @project.id  %>
 
 
@@ -56,6 +56,7 @@
                   <tr>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>Jenkins JOB</th>
                     <th></th>
                     <th>Steps</th>
                   </tr>
@@ -65,6 +66,7 @@
                       <tr>
                         <td><%= stage.name %></td>
                         <td><%= stage.description %></td>
+                        <td><%= stage.jenkins_job %></td>
                         <td>
                           <%= link_to raw('<i class="fa fa-eye"></i>'), [@project, stage], class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
                           <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_project_stage_path(@project, stage), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
@@ -87,7 +89,7 @@
           <% end %>
         </div>
         <!-- /stages -->
-        <div class="tab-pane" id="configs">
+        <div class="tab-pane <%= 'active' if params[:tab] == 'configs' %>" id="configs">
           <% if @project.id %>
 
                   <table class="table table-striped table-bordered">
@@ -119,7 +121,7 @@
 
         </div>
         <!-- /configs -->
-        <div class="tab-pane" id="jenkins_options">
+        <div class="tab-pane <%= 'active' if params[:tab] == 'jenkins_options' %>" id="jenkins_options">
           <div class="form-group">
             <%= f.label :jenkins_host, class: 'control-label' %>
             <%= f.text_field :jenkins_host, class: 'form-control', placeholder: 'Jenkins host' %>
@@ -146,7 +148,7 @@
           </div>
         </div>
         <!-- /jenkins options -->
-        <div class="tab-pane" id="vcs_options">
+        <div class="tab-pane <%= 'active' if params[:tab] == 'vcs_options' %>" id="vcs_options">
           <div class="form-group">
             <%= f.label :vcs_server, class: 'control-label' %>
             <%= f.text_field :vcs_server, class: 'form-control', placeholder: 'VCS Host' %>
@@ -168,7 +170,7 @@
           </div>
         </div>
         <!-- /VCS options -->
-        <div class="tab-pane" id="chef_options">
+        <div class="tab-pane <%= 'active' if params[:tab] == 'chef_options' %>" id="chef_options">
           <div class="form-group">
             <%= f.label :supermarket_url, class: 'control-label' %>
             <%= f.text_field :supermarket_url, class: 'form-control', placeholder: 'Supermarket Server URL' %>
