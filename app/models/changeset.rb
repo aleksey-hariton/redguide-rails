@@ -31,4 +31,30 @@ class Changeset < ApplicationRecord
         build: cookbook_build
     }
   end
+
+  def parsed_build_stages(stageId,changesetId)
+    stage_build = StageBuild.find_by(stage_id: stageId, changeset_id: changesetId)
+    if stage_build && stage_build.build_job && stage_build.build_job.stages
+      JSON.parse(stage_build.build_job.stages)
+    end
+  end
+
+  def get_step_status_color(step,stageId,changesetId)
+    color = "info-box bg-white"
+    stages = parsed_build_stages(stageId,changesetId)
+    stages.each do |stage|
+      if stage['name'] == step.name
+        if stage['status'] == 'SUCCESS'
+          color = "info-box bg-green"
+        elsif stage['status'] == 'FAILED'
+          color = "info-box bg-red"
+        elsif stage['status'] == 'IN_PROGRESS'
+          color = "info-box bg-orange"
+        end
+      end
+    end
+    color
+  end
+
+
 end

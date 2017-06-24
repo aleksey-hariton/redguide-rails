@@ -10,47 +10,34 @@
       <div class="box-body">
         <div class="row">
 
-          <% stage_build = StageBuild.find_by(stage_id: stage.id, changeset_id: @changeset.id) %>
-<% if stage_build && stage_build.build_job && stage_build.build_job.stages %>
-          <% @stages =  (JSON.parse(stage_build.build_job.stages)) %>
 
           <% steps = stage.steps %>
-          <% @stages.each do |stage| %>
+          <% stage.steps.each do |step| %>
 
 
               <div class="col-md-4">
 
-                <% if stage['status'] == 'SUCCESS' %>
-                    <% color = "info-box bg-green" %>
-                <% elsif stage['status'] == 'FAILED' %>
-                    <% color = "info-box bg-red" %>
-                <% elsif stage['status'] == 'IN_PROGRESS' %>
-                    <% color = "info-box bg-orange" %>
-                <% else %>
-                    <% color = "info-box bg-white" %>
-                <% end %>
 
-            <div class="<%= color %>">
+            <div class="<%= @changeset.get_step_status_color(step,stage.id,@changeset.id) %>">
 
-              <% step_icon = steps.select{|x| x.name == stage['name']}.first %>
+              <% step_icon = steps.select{|x| x.name == step['name']}.first %>
               <%
                 icon = step_icon ? step_icon.icon : 'building'
-                icon = 'refresh fa-spin' if stage['status'] == 'IN_PROGRESS'
+                icon = 'refresh fa-spin' if step['status'] == 'IN_PROGRESS'
               %>
               <span class="info-box-icon"><i class="fa fa-<%= icon %>"></i></span>
 
               <div class="info-box-content">
 
-            <span class="info-box-number">  <%= stage['name'] %></span>
+            <span class="info-box-number">  <%= step['name'] %></span>
 
-                <span class="info-box-text"> <%= stage['status'] %></span>
+                <span class="info-box-text"> <%= step['status'] %></span>
 
               </div>
             </div>
           </div>
 
           <% end %>
-<% end %>
         </div>
       </div>
       <td>
