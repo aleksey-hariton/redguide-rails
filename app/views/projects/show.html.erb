@@ -1,6 +1,4 @@
-<% content_for :page_title do %>
-    <%= @project.key %>
-<% end %>
+<% content_for :page_title, "Project: #{@project.key}" %>
 
 <div class="row">
 
@@ -14,34 +12,39 @@
       </div>
 
       <div class="box-body">
-        <table class="table table-striped table-bordered">
-          <thead>
-          <tr>
-            <th></th>
-            <th>Key</th>
-            <th>Description</th>
-            <th>Created</th>
-            <th>Author</th>
-            <th></th>
-          </tr>
-          </thead>
+        <% if @project.changesets.count > 0 %>
+          <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+              <th></th>
+              <th>Key</th>
+              <th>Description</th>
+              <th>Created</th>
+              <th>Author</th>
+              <th></th>
+            </tr>
+            </thead>
 
-          <tbody>
-          <% @project.changesets.each do |changeset| %>
-              <tr>
-                <td></td>
-                <td><%= link_to changeset.key, [@project, changeset] %></td>
-                <td><%= changeset.description %></td>
-                <td><%= time_ago_in_words changeset.created_at %></td>
-                <td><%= changeset.author.name %></td>
-                <td>
-                  <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_project_changeset_path(@project, changeset), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
-                  <%= link_to raw('<i class="fa fa-trash"></i>'), [@project, changeset], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
-                </td>
-              </tr>
-          <% end %>
-          </tbody>
-        </table>
+            <tbody>
+            <% @project.changesets.each do |changeset| %>
+                <tr>
+                  <td></td>
+                  <td><%= link_to changeset.key, [@project, changeset] %></td>
+                  <td><%= changeset.description %></td>
+                  <td><%= time_ago_in_words changeset.created_at %></td>
+                  <td><%= changeset.author.name %></td>
+                  <td>
+                    <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_project_changeset_path(@project, changeset), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                    <%= link_to raw('<i class="fa fa-trash"></i>'), [@project, changeset], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <%= render partial: 'projects/hint_create_changeset' %>
+        <% end %>
+
       </div>
     </div>
   </div>
@@ -58,7 +61,7 @@
         </div>
       </div>
       <p style="text-indent:10px">
-        <%= image_tag("#{@project.project_type_name.downcase}.png", size: "32") %>
+        <%= image_tag("#{@project.project_type_name.downcase}.png", size: '32') %>
       </p>
 
       <div class="box-body">
@@ -69,7 +72,7 @@
 
         <b>Jenkins host:</b>
         <p>
-          <%= link_to @project.jenkins_host, "http://#{@project.jenkins_host}/" %>
+          <a href="<%= @project.jenkins_host %>"><%= @project.jenkins_host %></a>
         </p>
 
         <b>Cookbook build job:</b>
@@ -77,19 +80,13 @@
           <%= link_to @project.cookbook_build_job, "http://#{@project.jenkins_host}/job/#{@project.cookbook_build_job}" %>
         </p>
 
-        <% if @project.environment_build_job && !@project.environment_build_job.empty? %>
-            <b>Environment build job:</b>
-            <p>
-              <%= link_to @project.environment_build_job, "http://#{@project.jenkins_host}/job/#{@project.environment_build_job}" %>
-            </p>
-        <% end %>
         <b>Description:</b>
         <p>
           <%= @project.description %>
         </p>
       </div>
       <div class="box-footer">
-        <%= link_to 'Edit', edit_project_path(@project), class: "btn btn-primary" %></span>
+        <%= link_to 'Edit', edit_project_path(@project), class: 'btn btn-primary' %></span>
       </div>
     </div>
 
@@ -108,6 +105,10 @@
           <% @project.cookbooks.each do |cookbook| %>
               <dt><%= link_to cookbook.name, [@project, cookbook] %></dt>
           <% end %>
+
+          <strong class="text-danger">No cookbooks found. To add cookbooks to project please run following command:</strong>
+              <pre>
+redguide cookbook add /path/to/cookbook/git/repo/</pre>
         </dl>
       </div>
     </div>

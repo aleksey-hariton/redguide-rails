@@ -1,0 +1,25 @@
+<div class="error-page">
+  <h2 class="headline text-yellow"> o_O</h2>
+  <div class="error-content">
+    <h3><i class="fa fa-warning text-yellow"></i> No changesets</h3>
+
+    <p>
+      Look like you didn't add any changesets to this project.
+    </p>
+    <p>
+      To add changeset to this project, please run following commands:
+    </p>
+    <p>
+<pre>
+redguide changeset create CHANGESET_ID 'Create first changeset' --project PROJECT_ID
+cd CHANGESET_ID/
+redguide add COOKBOOK
+</pre>
+    </p>
+    <p class="text-muted">
+      More details can be found in <a href="#">documentation</a>.
+    </p>
+
+  </div>
+  <!-- /.error-content -->
+</div>

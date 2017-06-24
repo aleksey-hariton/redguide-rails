@@ -1,4 +1,46 @@
-<div class="inner cover">
-  <h1 class="cover-heading"><%= t('home.title') %></h1>
-  <p class="lead"><%= t('home.subtitle').html_safe %></p>
+<% content_for :title, 'RedGuide Home' %>
+<% content_for :page_title, 'Your Projects' %>
+
+<div class="row">
+
+
+  <!-- Changesets -->
+  <div class="col-xs-12">
+      <% Project.all.each do |project| %>
+        <div class="col-md-4">
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-yellow">
+              <%= link_to project, style: 'color: white' do %>
+                <div class="widget-user-image">
+                  <%= image_tag("#{project.project_type_name.downcase}.png", size: '64') %>
+                </div>
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username"><%= project.key %></h3>
+                <h5 class="widget-user-desc">&nbsp;<%= project.description %></h5>
+              <% end %>
+            </div>
+            <div class="box-footer no-padding">
+              <ul class="nav nav-stacked">
+                <li>
+                  <%= link_to project do %>
+                      Changesets <span class="pull-right badge bg-blue"><%= project.changesets.count %></span>
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to project do %>
+                      Cookbooks <span class="pull-right badge bg-aqua"><%= project.cookbooks.count %></span>
+                  <% end %>
+                </li>
+                <li><a href="#">Environments <span class="pull-right badge bg-green">TODO</span></a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- /.widget-user -->
+        </div>
+      <% end %>
+  </div>
 </div>
+<br />
+<%= link_to 'Create Project', new_project_path, class: 'btn btn-primary btn-small' %>
