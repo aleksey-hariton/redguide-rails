@@ -1,4 +1,10 @@
+// Update cookbook builds
 $("#cookbooks-build").replaceWith("<%=raw escape_javascript(render partial: 'changesets/cookbook_build/cookbooks', format: 'html', locals: {cookbooks: @changeset.cookbook_builds}) %>");
+
+// Update Stages
+<% @changeset.stage_builds.each do |stage_build| %>
+$("#stage-build[data-stage=<%= stage_build.stage.name %>]").replaceWith("<%=raw escape_javascript(render partial: 'changesets/cookbook_build/stage', format: 'html', locals: {stage: stage_build.stage}) %>");
+<% end %>
 
 $(function() {
   assignRefreshReaction();
