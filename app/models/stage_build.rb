@@ -4,7 +4,6 @@ class StageBuild < ApplicationRecord
   has_one :build_job
 
   def build
-    puts 'Build job $$$'
     job = build_job
     unless job
       job = BuildJob.new
@@ -34,8 +33,6 @@ class StageBuild < ApplicationRecord
 
     File.delete(log_file) if File.exists? log_file
 
-    puts "@@@@ #{options}"
-
     job.delay.build(
       'druidgce',
       options
@@ -57,8 +54,6 @@ class StageBuild < ApplicationRecord
 
   def build_job
     @build_job ||= BuildJob.find_by(id: build_job_id)
-    puts 'buildJOB'
-    puts @build_job
     if @build_job && [
       Redguide::API::STATUS_SKIPPED,
       Redguide::API::STATUS_NOK,
@@ -96,11 +91,6 @@ class StageBuild < ApplicationRecord
   private
 
   def log_file
-    puts '----------------------'
-    puts ENV['JOB_LOG_PATH']
-    puts changeset.project.key
-    puts changeset.key
-    puts '----------------------'
     File.join(ENV['JOB_LOG_PATH'], changeset.project.key, changeset.key, 'union_log.log.html')
   end
 end

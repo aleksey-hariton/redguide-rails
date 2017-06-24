@@ -23,13 +23,10 @@ class ChangesetsController < Admin::ApplicationController
   end
 
   def build_stage
-    puts 'here'
     build = @changeset.stage_builds.find_by(
       stage_id: params[:project_stage_id],
       changeset_id: @changeset.id
     )
-    puts '####$$$$KKKK'
-    puts build
     unless build
       build = StageBuild.new(
         stage_id: params[:project_stage_id],
