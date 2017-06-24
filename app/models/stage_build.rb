@@ -34,7 +34,7 @@ class StageBuild < ApplicationRecord
     File.delete(log_file) if File.exists? log_file
 
     job.delay.build(
-      'druidgce',
+      stage.jenkins_job,
       options
     )
   end
