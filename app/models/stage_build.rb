@@ -4,7 +4,6 @@ class StageBuild < ApplicationRecord
   has_one :build_job
 
   def build
-
     job = build_job
     unless job
       job = BuildJob.new
@@ -34,10 +33,8 @@ class StageBuild < ApplicationRecord
 
     File.delete(log_file) if File.exists? log_file
 
-    puts "@@@@ #{options}"
-
     job.delay.build(
-      'Union',
+      'druidgce',
       options
     )
   end
