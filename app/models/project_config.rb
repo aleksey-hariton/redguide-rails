@@ -1,4 +1,4 @@
-class Prconfig < ApplicationRecord
+class ProjectConfig < ApplicationRecord
 
   belongs_to :project
 
