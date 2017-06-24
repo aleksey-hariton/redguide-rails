@@ -1,17 +1,8 @@
 class ProjectConfigsController < Admin::ApplicationController
-  before_action :set_project_config, only: [:show, :edit, :update, :destroy]
-  before_action :set_project, only: [:new, :create, :index, :show, :edit, :update, :destroy]
+  before_action :set_project_config, only: [:edit, :update, :destroy]
+  before_action :set_project, only: [:new, :create, :edit, :update, :destroy]
 
   layout 'admin/layouts/admin'
-
-  # GET /project_configs
-  def index
-    @project_configs = ProjectConfig.all
-  end
-
-  # GET /project_configs/1
-  def show
-  end
 
   # GET /project_configs/new
   def new
@@ -29,7 +20,7 @@ class ProjectConfigsController < Admin::ApplicationController
     @project_config.project = @project
 
     if @project_config.save
-      redirect_to [@project_config.project, @project_config], notice: 'Project config was successfully created.'
+      redirect_to edit_project_path(@project_config.project), notice: 'Project config was successfully created.'
     else
       render :new
     end
@@ -38,7 +29,7 @@ class ProjectConfigsController < Admin::ApplicationController
   # PATCH/PUT /project_configs/1
   def update
     if @project_config.update(project_config_params)
-      redirect_to [@project_config.project, @project_config], notice: 'Project config was successfully updated.'
+      redirect_to edit_project_path(@project_config.project), notice: 'Project config was successfully updated.'
     else
       render :edit
     end
