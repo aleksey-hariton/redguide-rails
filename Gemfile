@@ -46,8 +46,6 @@ group :development do
   gem 'web-console'
   gem 'listen', '~> 3.0.5'
 
-  gem 'railroady'
-
   # Guard
   gem 'guard-bundler'
   gem 'guard-rails'
