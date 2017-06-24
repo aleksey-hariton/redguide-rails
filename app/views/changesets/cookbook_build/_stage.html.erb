@@ -1,41 +1,25 @@
 <!-- STAGES -->
-
 <div class="row" id="stage-build" data-id="<%= @changeset.slug %>" data-project="<%= @project.slug %>">
   <div class="col-md-12">
     <div class="box box-default">
-
       <div class="box-header">
         <h3 class="box-title"><%= stage.description %></h3>
       </div>
       <div class="box-body">
         <div class="row">
-
-
           <% steps = stage.steps %>
           <% stage.steps.each do |step| %>
-
-
               <div class="col-md-4">
-
-
-            <div class="<%= @changeset.get_step_status_color(step,stage.id,@changeset.id) %>">
-
-              <% step_icon = steps.select{|x| x.name == step['name']}.first %>
-              <%
-                icon = step_icon ? step_icon.icon : 'building'
-                icon = 'refresh fa-spin' if step['status'] == 'IN_PROGRESS'
-              %>
-              <span class="info-box-icon"><i class="fa fa-<%= icon %>"></i></span>
-
-              <div class="info-box-content">
-
-            <span class="info-box-number">  <%= step['name'] %></span>
-
-                <span class="info-box-text"> <%= step['status'] %></span>
-
+                <div class="<%= @changeset.get_step_status_color(step,stage.id,@changeset.id) %>">
+                  <span class="info-box-icon">
+                    <i class="fa fa-<%= @changeset.get_step_icon(step,stage.id,@changeset.id) %>"></i>
+                  </span>
+                  <div class="info-box-content">
+                    <span class="info-box-number">  <%= step.name %></span>
+                    <span class="info-box-text"> <%= @changeset.get_step_status(step,stage.id,@changeset.id) %></span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
           <% end %>
         </div>
@@ -43,14 +27,14 @@
       <td>
         <div class="btn-group">
           <!--% if build.can_rebuild? %-->
-              <%=
-                link_to icon('play','Test').html_safe,
-                        project_changeset_build_stage_path(@project, @changeset, { project_stage_id: stage.id }),
-                        method: :post,
-                        remote: true,
-                        class: 'btn btn-sm btn-default btn-flat btn-start-process',
-                        title: 'Start Test'
-              %>
+          <%=
+            link_to icon('play','Test').html_safe,
+                    project_changeset_build_stage_path(@project, @changeset, { project_stage_id: stage.id }),
+                    method: :post,
+                    remote: true,
+                    class: 'btn btn-sm btn-default btn-flat btn-start-process',
+                    title: 'Start Test'
+          %>
           <!--% end %-->
         </div>
       </td>

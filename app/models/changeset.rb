@@ -39,8 +39,9 @@ class Changeset < ApplicationRecord
     end
   end
 
+  # returns color style for stages according to result status from Jenkins
   def get_step_status_color(step,stageId,changesetId)
-    color = "info-box bg-white"
+    color = "info-box bg-gray"
     stages = parsed_build_stages(stageId,changesetId)
     stages.each do |stage|
       if stage['name'] == step.name
@@ -49,12 +50,34 @@ class Changeset < ApplicationRecord
         elsif stage['status'] == 'FAILED'
           color = "info-box bg-red"
         elsif stage['status'] == 'IN_PROGRESS'
-          color = "info-box bg-orange"
+          color = "info-box bg-blue"
         end
       end
     end
     color
   end
 
+  # returns icon style for stages according to result status from Jenkins
+  def get_step_icon(step,stageId,changesetId)
+    icon = step.icon
+    stages = parsed_build_stages(stageId,changesetId)
+    stages.each do |stage|
+      if stage['name'] == step.name
+        icon = 'refresh fa-spin' if stage['status'] == 'IN_PROGRESS'
+      end
+    end
+    icon
+  end
 
+  # returns icon style for stages according to result status from Jenkins
+  def get_step_status(step,stageId,changesetId)
+    status = 'NOT STARTED'
+    stages = parsed_build_stages(stageId,changesetId)
+    stages.each do |stage|
+      if stage['name'] == step.name
+        status = stage['status']
+      end
+    end
+    status
+  end
 end
