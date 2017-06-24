@@ -1,0 +1,1 @@
+json.array! @project_configs, partial: 'api/project_configs/project_config', as: :project_config

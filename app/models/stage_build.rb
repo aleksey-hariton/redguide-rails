@@ -37,7 +37,7 @@ class StageBuild < ApplicationRecord
     puts "@@@@ #{options}"
 
     job.delay.build(
-      'Union',
+      'druidgce',
       options
     )
   end
