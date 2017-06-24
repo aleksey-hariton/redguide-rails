@@ -71,6 +71,12 @@ class StageBuild < ApplicationRecord
     ].include?(@build_job.status)
     end
 
+    unless @build_job
+      @build_job = BuildJob.new
+      self.build_job_id = @build_job.id
+      @build_job.save
+    end
+
     @build_job
   end
 
