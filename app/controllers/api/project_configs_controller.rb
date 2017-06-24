@@ -1,29 +1,29 @@
 module Api
-class PrconfigsController < Api::ApiController
-    before_action :set_prconfig, only: [:show]
+class ProjectConfigsController < Api::ApiController
+    before_action :set_project_config, only: [:show]
     before_action :set_project
 
-    # GET /prconfigs
+    # GET /project_configs
     def index
-      @prconfigs = Prconfig.all
+      @project_configs = ProjectConfig.all
     end
 
-    # GET /prconfigs/1
+    # GET /project_configs/1
     def show
     end
 
     def get_by_name
-      @conf = Prconfig.find_by(name: params[:name])
+      @conf = ProjectConfig.find_by(name: params[:name])
     end
 
-    # POST /prconfigs
+    # POST /project_configs
     def create
     end
 
     private
       # Use callbacks to share common setup or constraints between actions.
-      def set_prconfig
-        @prconfig = Prconfig.find(params[:id])
+      def set_project_config
+        @project_config = ProjectConfig.find(params[:id])
       end
 
       # Use callbacks to share common setup or constraints between actions.
@@ -32,8 +32,8 @@ class PrconfigsController < Api::ApiController
       end
 
       # Only allow a trusted parameter "white list" through.
-      def prconfig_params
-        params.require(:prconfig).permit(:name, :content)
+      def project_config_params
+        params.require(:project_config).permit(:name, :content)
       end
   end
 end

@@ -9,16 +9,16 @@
       <div class="box-body">
         <dl class="dl-horizontal">
               <dt>Name</dt>
-              <dd><%= @prconfig.name %></dd>
+              <dd><%= @project_config.name %></dd>
 
               <dt>Content</dt>
-              <dd><%= @prconfig.content %></dd>
+              <dd><%= @project_config.content %></dd>
 
         </dl>
       </div>
       <div class="box-footer">
-        <%= link_to 'Back', project_prconfigs_path, class: 'btn btn-default' %>
-        <%= link_to 'Edit', edit_project_prconfig_path(@project, @prconfig), class: "btn btn-primary" %>
+        <%= link_to 'Back', project_project_configs_path, class: 'btn btn-default' %>
+        <%= link_to 'Edit', edit_project_project_config_path(@project, @project_config), class: "btn btn-primary" %>
       </div>
     </div>
   </div>
