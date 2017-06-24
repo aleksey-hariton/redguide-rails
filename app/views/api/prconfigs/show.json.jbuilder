@@ -1,1 +1,0 @@
-json.partial! 'api/prconfigs/prconfig', prconfig: @prconfig
