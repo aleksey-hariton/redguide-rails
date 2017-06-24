@@ -105,6 +105,10 @@
           <% @project.cookbooks.each do |cookbook| %>
               <dt><%= link_to cookbook.name, [@project, cookbook] %></dt>
           <% end %>
+
+          <strong class="text-danger">No cookbooks found. To add cookbooks to project please run following command:</strong>
+              <pre>
+redguide cookbook add /path/to/cookbook/git/repo/</pre>
         </dl>
       </div>
     </div>
