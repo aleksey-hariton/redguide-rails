@@ -86,7 +86,7 @@
         </p>
       </div>
       <div class="box-footer">
-        <%= link_to 'Edit', edit_project_path(@project), class: 'btn btn-primary' %></span>
+        <%= link_to 'Edit', edit_project_path(@project), class: 'btn btn-primary' %>
       </div>
     </div>
 
@@ -102,13 +102,16 @@
 
       <div class="box-body">
         <dl>
-          <% @project.cookbooks.each do |cookbook| %>
-              <dt><%= link_to cookbook.name, [@project, cookbook] %></dt>
-          <% end %>
 
+          <% if @project.cookbooks.count > 0 %>
+            <% @project.cookbooks.each do |cookbook| %>
+                <dt><%= link_to cookbook.name, [@project, cookbook] %></dt>
+            <% end %>
+          <% else %>
           <strong class="text-danger">No cookbooks found. To add cookbooks to project please run following command:</strong>
               <pre>
 redguide cookbook add /path/to/cookbook/git/repo/</pre>
+          <% end %>
         </dl>
       </div>
     </div>

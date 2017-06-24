@@ -1,7 +1,18 @@
 class StageBuild < ApplicationRecord
-  has_one :stage
+  belongs_to :stage
   has_one :changeset
   has_one :build_job
+
+  def can_rebuild?
+    statuses = [
+        Redguide::API::STATUS_IN_PROGRESS,
+        Redguide::API::STATUS_SCHEDULED,
+    ]
+    # Dont restart if scheduled/in progress
+    !statuses.include?(status)
+  end
+
+
 
   def build
     job = build_job
@@ -38,7 +49,6 @@ class StageBuild < ApplicationRecord
       options
     )
   end
-
 
   def job_url
     build_job ? build_job.url : ''

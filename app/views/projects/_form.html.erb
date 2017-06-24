@@ -101,19 +101,19 @@
                     </thead>
 
                     <tbody>
-                    <% @project.prconfigs.each do |prconfig| %>
+                    <% @project.project_configs.each do |project_config| %>
                         <tr>
-                          <td><%= prconfig.name %></td>
+                          <td><%= project_config.name %></td>
                           <td>
-                            <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_project_prconfig_path(@project, prconfig), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
-                            <%= link_to raw('<i class="fa fa-trash"></i>'), [@project, prconfig], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                            <%= link_to raw('<i class="fa fa-pencil"></i>'), edit_project_project_config_path(@project, project_config), class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
+                            <%= link_to raw('<i class="fa fa-trash"></i>'), [@project, project_config], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-default btn-flat btn-start-process' %>
                           </td>
                         </tr>
                     <% end %>
                     </tbody>
                   </table>
 
-              <%= link_to 'New config', new_project_prconfig_path(@project), class: "btn btn-primary btn-sm" %>
+              <%= link_to 'New config', new_project_project_config_path(@project), class: "btn btn-primary btn-sm" %>
 
           <% else %>
             Please save the project first, then create configs

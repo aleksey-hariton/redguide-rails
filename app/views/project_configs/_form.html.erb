@@ -1,11 +1,11 @@
-<%= form_for([project, prconfig]) do |f| %>
-  <% if prconfig.errors.any? %>
+<%= form_for([project, project_config]) do |f| %>
+  <% if project_config.errors.any? %>
     <div class="alert alert-danger alert-dismissible">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-      <h4><i class="icon fa fa-ban"></i> <%= pluralize(prconfig.errors.count, "error") %> prohibited this prconfig from being saved:</h4>
+      <h4><i class="icon fa fa-ban"></i> <%= pluralize(project_config.errors.count, "error") %> prohibited this project config from being saved:</h4>
 
       <ul>
-        <% prconfig.errors.full_messages.each do |message| %>
+        <% project_config.errors.full_messages.each do |message| %>
         <li><%= message %></li>
         <% end %>
       </ul>
@@ -34,7 +34,7 @@
       </div>
 
       <div class="box-footer">
-        <%= link_to 'Back', project_prconfigs_path, class: 'btn btn-default' %>
+        <%= link_to 'Back', project_project_configs_path, class: 'btn btn-default' %>
         <%= f.submit class: 'btn btn-success' %>
       </div>
     </div>
