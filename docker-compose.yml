@@ -1,0 +1,18 @@
+version : '3.3'
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 111111
+    ports:
+      - "3306"
+  redguide:
+    build: .
+    #command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: bash -c "bundle exec rails db:create; bundle exec rails db:migrate"
+    volumes:
+      - .:/redguide-rails
+    ports:
+      - "3000:3000"
+    links:
+      - db
