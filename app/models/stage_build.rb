@@ -64,12 +64,6 @@ class StageBuild < ApplicationRecord
 
   def build_job
     @build_job ||= BuildJob.find_by(id: build_job_id)
-    if @build_job && [
-      Redguide::API::STATUS_SKIPPED,
-      Redguide::API::STATUS_NOK,
-      Redguide::API::STATUS_UNKNOWN
-    ].include?(@build_job.status)
-    end
 
     unless @build_job
       @build_job = BuildJob.new

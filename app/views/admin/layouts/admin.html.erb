@@ -7,6 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no, minimal-ui"/>
     <meta name="keywords" content="" />
+    <link rel="shortcut icon" href="<%= asset_url 'favicon.png' %>" type="image/x-icon">
     <meta name="title" content="<%= content_for?(:title) ? yield(:title) : Rails.application.secrets[:site_title] %>">
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : Rails.application.secrets[:site_title] %>">
     <title><%= content_for?(:title) ? yield(:title) : Rails.application.secrets[:site_title] %></title>

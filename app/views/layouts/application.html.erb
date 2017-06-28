@@ -9,6 +9,7 @@
   <meta name="keywords" content="" />
   <meta name="title" content="<%= content_for?(:title) ? yield(:title) : Rails.application.secrets[:site_title] %>">
   <meta name="description" content="<%= content_for?(:description) ? yield(:description) : Rails.application.secrets[:site_title] %>">
+  <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
   <title><%= content_for?(:title) ? yield(:title) : Rails.application.secrets[:site_title] %></title>
 
   <%= stylesheet_link_tag 'application_back', media: 'all' %>
