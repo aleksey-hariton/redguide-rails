@@ -142,6 +142,12 @@ class BuildJob < ApplicationRecord
     File.basename(url)
   end
 
+  def build_steps
+    JSON.parse(stages)
+  rescue
+    []
+  end
+
   private
 
   def get_stages(jenkins, job, build_id)

@@ -32,27 +32,30 @@ class Changeset < ApplicationRecord
     }
   end
 
-  def parsed_build_stages(stage_id,changeset_id)
-    stage_build = StageBuild.find_by(stage_id: stage_id, changeset_id: changeset_id)
-    if stage_build && stage_build.build_job && stage_build.build_job.stages
-      JSON.parse(stage_build.build_job.stages)
-    else
-      []
+  # Retyrn StageBuild status
+  def stage_info(stage)
+    stage_build = StageBuild.find_by(changeset_id: self.id, stage_id: stage.id)
+
+    unless stage_build
+      stage_build = StageBuild.new(changeset_id: self.id, stage_id: stage.id, status: Redguide::API::STATUS_NOT_STARTED)
+      stage_build.save
     end
+
+    stage_build
   end
 
   # returns color style for stages according to result status from Jenkins
-  def get_step_status_color(step,stage_id,changeset_id)
-    color = "info-box bg-gray"
-    stages = parsed_build_stages(stage_id,changeset_id)
-    stages.each do |stage|
-      if stage['name'] == step.name
-        if stage['status'] == 'SUCCESS'
-          color = "info-box bg-green"
-        elsif stage['status'] == 'FAILED'
-          color = "info-box bg-red"
-        elsif stage['status'] == 'IN_PROGRESS'
-          color = "info-box bg-blue"
+  def get_step_status_color(stage, step)
+    color = 'info-box bg-gray'
+
+    stage_info(stage).build_job.build_steps.each do |build_step|
+      if build_step['name'] == step.name
+        if build_step['status'] == 'SUCCESS'
+          color = 'info-box bg-green'
+        elsif build_step['status'] == 'FAILED'
+          color = 'info-box bg-red'
+        elsif build_step['status'] == 'IN_PROGRESS'
+          color = 'info-box bg-blue'
         end
       end
     end
@@ -60,24 +63,22 @@ class Changeset < ApplicationRecord
   end
 
   # returns icon style for stages according to result status from Jenkins
-  def get_step_icon(step,stage_id,changeset_id)
+  def get_step_icon(stage, step)
     icon = step.icon
-    stages = parsed_build_stages(stage_id,changeset_id)
-    stages.each do |stage|
-      if stage['name'] == step.name
-        icon = 'refresh fa-spin' if stage['status'] == 'IN_PROGRESS'
+    stage_info(stage).build_job.build_steps.each do |build_step|
+      if build_step['name'] == step.name
+        icon = 'refresh fa-spin' if build_step['status'] == 'IN_PROGRESS'
       end
     end
     icon
   end
 
   # returns icon style for stages according to result status from Jenkins
-  def get_step_status(step,stage_id,changeset_id)
+  def get_step_status(stage, step)
     status = 'NOT STARTED'
-    stages = parsed_build_stages(stage_id,changeset_id)
-    stages.each do |stage|
-      if stage['name'] == step.name
-        status = stage['status']
+    stage_info(stage).build_job.build_steps.each do |build_step|
+      if build_step['name'] == step.name
+        status = build_step['status']
       end
     end
     status

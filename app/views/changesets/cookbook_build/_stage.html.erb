@@ -1,21 +1,21 @@
+<% stage_info = @changeset.stage_info(stage) %>
 <!-- STAGES -->
 <div class="row" id="stage-build" data-id="<%= @changeset.slug %>" data-project="<%= @project.slug %>" data-stage="<%= stage.name %>">
   <div class="col-md-12">
     <div class="box box-default">
       <div class="box-header with-border">
-        <% job = stage.build_status(@changeset).build_job %>
-        <h3 class="box-title"><%= stage.description %> <%= link_to "##{job.build_number}", job.console_url, target: :_blank %></h3>
+        <h3 class="box-title"><%= stage.description %> <%= link_to "##{stage_info.build_job.build_number}", stage_info.build_job.console_url, target: :_blank %></h3>
 
         <div class="box-tools pull-right">
-          <%= status_label stage.build_status(@changeset).status %>
+          <%= status_label stage_info.build_job.status %>
           <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
           </button>
         </div>
       </div>
       <div class="box-body">
-        <% if stage.build_status(@changeset).can_rebuild? %>
+        <% if stage_info.can_rebuild? %>
         <%=
-          link_to icon('play','Start!').html_safe,
+          link_to icon('play', 'Start!').html_safe,
                   project_changeset_build_stage_path(@project, @changeset, { project_stage_id: stage.id }),
                   method: :post,
                   remote: true,
@@ -26,13 +26,13 @@
         <div class="row">
           <% stage.steps.each do |step| %>
               <div class="col-md-4">
-                <div class="<%= @changeset.get_step_status_color(step, stage.id, @changeset.id) %>">
+                <div class="<%= @changeset.get_step_status_color(stage, step) %>">
                   <span class="info-box-icon">
-                    <i class="fa fa-<%= @changeset.get_step_icon(step, stage.id, @changeset.id) %>"></i>
+                    <i class="fa fa-<%= @changeset.get_step_icon(stage, step) %>"></i>
                   </span>
                   <div class="info-box-content">
                     <span class="info-box-number">  <%= step.name %></span>
-                    <span class="info-box-text"> <%= @changeset.get_step_status(step, stage.id, @changeset.id) %></span>
+                    <span class="info-box-text"> <%= @changeset.get_step_status(stage, step) %></span>
                   </div>
                 </div>
               </div>
