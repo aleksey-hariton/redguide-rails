@@ -126,13 +126,6 @@ class StageBuild < ApplicationRecord
     end
   end
 
-  private
-
-  def log_file
-    File.join(ENV['JOB_LOG_PATH'], changeset.project.key, changeset.key, 'union_log.log.html')
-  end
-
-
   # Method hidden to +private+ section to prevent direct usage!
   def build_job
     @build_job ||= BuildJob.find_by(id: build_job_id)
@@ -146,4 +139,9 @@ class StageBuild < ApplicationRecord
     @build_job
   end
 
+  private
+
+  def log_file
+    File.join(ENV['JOB_LOG_PATH'], changeset.project.key, changeset.key, 'union_log.log.html')
+  end
 end

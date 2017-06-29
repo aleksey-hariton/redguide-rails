@@ -21,7 +21,13 @@
                   remote: true,
                   class: 'btn btn-app btn-start-process'
         %>
-        <% end %>
+        <% else %>
+            <div class="row">
+              <div class="col-md-12">
+                <%= render partial: 'shared/build_job_status', locals: {build: stage_info.build_job} %>
+              </div>
+            </div>
+      <% end %>
 
         <div class="row">
           <% stage_info.steps.each do |step| %>

@@ -45,6 +45,10 @@ class BuildJob < ApplicationRecord
         self.duration = build['duration'] / 1000
       end
 
+      if build['estimatedDuration'] > 0
+        self.estimated_duration = build['estimatedDuration'] / 1000
+      end
+
       self.stages = get_stages(jenkins, job, build_id)
       save
 
@@ -133,6 +137,11 @@ class BuildJob < ApplicationRecord
     end
     save
   end
+
+  def elapsed
+    DateTime.now.to_time - self.started_at.to_time
+  end
+
 
   def console_url
     File.join(url, 'console')
