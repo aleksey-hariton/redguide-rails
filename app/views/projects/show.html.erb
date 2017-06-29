@@ -1,17 +1,15 @@
 <% content_for :page_title, "Project: #{@project.key}" %>
 
 <div class="row">
-
-
   <!-- Changesets -->
-  <div class="col-xs-9">
+  <div class="col-md-9">
     <div class="box">
 
       <div class="box-header">
         <h3 class="box-title">Changesets</h3>
       </div>
 
-      <div class="box-body">
+      <div class="box-body table-responsive">
         <% if @project.changesets.count > 0 %>
           <table class="table table-striped table-bordered">
             <thead>
@@ -50,7 +48,7 @@
   </div>
 
   <!-- project -->
-  <div class="col-xs-3">
+  <div class="col-md-3">
     <div class="box">
 
       <div class="box-header">
@@ -60,14 +58,11 @@
           </button>
         </div>
       </div>
-      <p style="text-indent:10px">
-        <%= image_tag("#{@project.project_type_name.downcase}.png", size: '32') %>
-      </p>
-
       <div class="box-body">
         <b>Project type:</b>
         <p>
-          <%= @project.project_type_name %>
+          <%= @project.project_type_name %><br/>
+          <%= image_tag("#{@project.project_type_name.downcase}.png", size: '32') %>
         </p>
 
         <b>Jenkins host:</b>
