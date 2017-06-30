@@ -12,7 +12,7 @@ class BuildJob < ApplicationRecord
         password:   params[:jenkins][:password]
     )
     log_file = params[:log_file]
-    File.delete(log_file) if log_file && File.exists?(log_file)
+    File.delete(log_file) if log_file && File.exist?(log_file)
     self.url = ''
     self.status = Redguide::API::STATUS_SCHEDULED
     self.started_at = DateTime.now
@@ -129,7 +129,7 @@ class BuildJob < ApplicationRecord
     #     "builtOn" => "chef-deploy-docker",
     #     "changeSet" => {"items" => [], "kind" => "git"}, "culprits" => []
     # }
-  rescue Exception => e
+  rescue StandardError => e
     self.status = Redguide::API::STATUS_NOK
     if log_file
       create_log_dir(log_file)
@@ -181,6 +181,6 @@ class BuildJob < ApplicationRecord
 
   def create_log_dir(log_file)
     log_dir = File.dirname(log_file)
-    FileUtils.mkdir_p(log_dir) unless File.exists?(log_dir)
+    FileUtils.mkdir_p(log_dir) unless File.exist?(log_dir)
   end
 end
