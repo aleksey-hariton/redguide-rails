@@ -1,13 +1,8 @@
 <% if build.status == Redguide::API::STATUS_IN_PROGRESS
-     if build.kind_of?(CookbookBuild)
-       progress = build.progress
-     else
-       progress = (build.elapsed / (0.0 + build.duration) * 100).to_i
-     end
 %>
     <%=  render partial: 'shared/elapsed_time_label', locals: {elapsed: build.elapsed} %>
     <%=
-      link_to render(partial: 'shared/progress_bar', locals: {progress: progress}),
+      link_to render(partial: 'shared/progress_bar', locals: {progress: build.progress}),
               project_changeset_build_details_path(
                   @project, @changeset,
                   { build_id: build.id }

@@ -142,6 +142,12 @@ class BuildJob < ApplicationRecord
     DateTime.now.to_time - self.started_at.to_time
   end
 
+  def progress
+    p = (elapsed / (0.0 + duration) * 100).to_i
+    p = 99 if p > 100
+    p
+  end
+
 
   def console_url
     File.join(url, 'console')
