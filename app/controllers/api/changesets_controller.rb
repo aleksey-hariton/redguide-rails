@@ -40,15 +40,17 @@ module Api
       params[:cookbooks].each do |cookbook_name, value|
         cookbook = Cookbook.find_by(name: cookbook_name, project_id: @project.id)
         if cookbook
-          cookbook_build = @changeset.cookbook_builds.find_by(cookbook_id: cookbook.id)
-          unless cookbook_build
-            cookbook_build = @changeset.add_cookbook(cookbook)[:build]
+          @changeset.project.stages.select { |stage| stage.stage_type == 'Cookbook' }.each do |stage|
+            cookbook_build = @changeset.cookbook_builds.find_by(cookbook_id: cookbook.id)
+            unless cookbook_build
+              cookbook_build = @changeset.add_cookbook(cookbook)[:build]
+            end
+            cookbook_build.reset if cookbook_build.commit_sha != value[:commit_sha]
+            cookbook_build.commit_sha = value[:commit_sha]
+            cookbook_build.remote_branch = value[:remote_branch]
+            cookbook_build.stage_id = stage.id
+            cookbook_build.save
           end
-          cookbook_build.reset if cookbook_build.commit_sha != value[:commit_sha]
-          cookbook_build.commit_sha = value[:commit_sha]
-          cookbook_build.remote_branch = value[:remote_branch]
-          cookbook_build.save
-
         else
           render partial: 'api/shared/error', status: :not_found, notice: "Cookbook with name '#{params[:name]}' not found"
           return

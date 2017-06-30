@@ -72,7 +72,7 @@ class StagesController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def stage_params
-    params.require(:stage).permit(:name, :description, :project_id, :jenkins_job)
+    params.require(:stage).permit(:name, :description, :project_id, :jenkins_job, :stage_type)
   end
 
 end

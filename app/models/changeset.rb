@@ -82,4 +82,15 @@ class Changeset < ApplicationRecord
     end
     status
   end
+
+  # Returns status of cookbook build stage
+  def get_cookbook_stage_status(cookbook_build,step_name)
+    res = nil
+
+    JSON.parse(cookbook_build.build_job.stages).each do |stage|
+      res = stage['status'] if stage['name'] == step_name
+    end if cookbook_build.build_job && cookbook_build.build_job.stages
+
+    res
+  end
 end

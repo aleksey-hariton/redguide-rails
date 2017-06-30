@@ -2,7 +2,7 @@
 
 <%= render partial: 'changesets/cookbook_build/cookbooks', locals: {cookbooks: @changeset.cookbook_builds, project: @project, changeset: @changeset} %>
 
-<%= render partial: 'changesets/cookbook_build/stage', collection: @changeset.project.stages %>
+<%= render partial: 'changesets/cookbook_build/stage', collection: @changeset.project.stages.select { |stage| stage.stage_type != 'Cookbook' } %>
 
 <div id="build-details">
 </div>

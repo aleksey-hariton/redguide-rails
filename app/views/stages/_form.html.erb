@@ -36,6 +36,10 @@
           <%= f.text_field :jenkins_job, class: 'form-control', placeholder: 'Jenkins JOB' %>
         </div>
 
+        <div class="form-group">
+          <%= f.label :stage_type, 'Stage Type', class: 'control-label' %>
+          <%= f.select :stage_type, options_for_select([ "Cookbook", "Default" ], "Default") %>
+        </div>
 
       </div>
 
