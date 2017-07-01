@@ -31,17 +31,27 @@
 
         <div class="row">
           <% stage_info.steps.each do |step| %>
-              <div class="col-md-4">
-                <div class="<%= step['color'] %>">
-                  <span class="info-box-icon">
-                    <i class="fa fa-<%= step['icon'] %>"></i>
-                  </span>
-                  <div class="info-box-content">
-                    <span class="info-box-number">  <%= step['name'] %></span>
-                    <span class="info-box-text"> <%= step['status'] %></span>
+              <div class="col-md-4 col-sm-6 col-xs-12">
+
+                <div class="box box-widget widget-user-2" style="box-shadow: 0 2px 2px rgba(0,0,0,0.4);">
+                  <div class="widget-user-header bg-<%= step['color'] %>">
+                    <div class="widget-user-image">
+                      <span class="pull-left" style="font-size: 45px;"><i class="fa fa-<%= step['icon'] %>"></i></span>
+                    </div>
+                    <h3 class="widget-user-username"><%= step['name'] %></h3>
+                    <h5 class="widget-user-desc"><%= step['status'] %></h5>
                     <% if step['duration'] > 0 %>
-                      <span class="info-box-number"><%= render partial: 'shared/elapsed_time_label', locals: {elapsed: step['duration']} %></span>
+                      <span class="pull-right"><%= render partial: 'shared/elapsed_time_label', locals: {elapsed: step['duration']} %></span>
                     <% end %>
+                  </div>
+                  <div class="box-footer no-padding">
+                    <ul class="nav nav-stacked">
+                      <% if step['urls'] %>
+                          <% step['urls'].each do |name, url| %>
+                              <li><%= link_to name, url %></li>
+                          <% end %>
+                      <% end %>
+                    </ul>
                   </div>
                 </div>
               </div>

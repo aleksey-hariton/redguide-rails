@@ -68,6 +68,12 @@ class StageBuild < ApplicationRecord
       step['name'] = stage_step.description
       step['status'] = 'NOT STARTED'
       step['color'] = 'info-box bg-gray'
+      step_urls = stage_step.urls
+      if step_urls
+        step_urls = JSON.parse(step_urls)
+        step_urls.each_value { |url| url.replace("http://#{url}") unless url.start_with?('http://', 'https://') }
+        step['urls'] = step_urls
+      end
       step['duration'] = 0
       build_job.build_steps.each do |build_step|
         if stage_step.description == build_step['name']
