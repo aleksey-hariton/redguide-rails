@@ -12,7 +12,7 @@ class BuildJob < ApplicationRecord
         password:   params[:jenkins][:password]
     )
     log_file = params[:log_file]
-    File.delete(log_file) if log_file && File.exists?(log_file)
+    File.delete(log_file) if log_file && File.exist?(log_file)
     self.url = ''
     self.status = Redguide::API::STATUS_SCHEDULED
     self.started_at = DateTime.now
@@ -43,6 +43,10 @@ class BuildJob < ApplicationRecord
 
       if build['duration'] > 0
         self.duration = build['duration'] / 1000
+      end
+
+      if build['estimatedDuration'] > 0
+        self.estimated_duration = build['estimatedDuration'] / 1000
       end
 
       self.stages = get_stages(jenkins, job, build_id)
@@ -125,13 +129,38 @@ class BuildJob < ApplicationRecord
     #     "builtOn" => "chef-deploy-docker",
     #     "changeSet" => {"items" => [], "kind" => "git"}, "culprits" => []
     # }
-  rescue Exception => e
+  rescue StandardError => e
     self.status = Redguide::API::STATUS_NOK
     if log_file
       create_log_dir(log_file)
       ::File.write(log_file, "Message:\n\n#{e}\n\nBacktrace:\n\n#{e.backtrace.join("\n")}")
     end
     save
+  end
+
+  def elapsed
+    DateTime.now.to_time - self.started_at.to_time
+  end
+
+  def progress
+    p = (elapsed / (0.0 + duration) * 100).to_i
+    p = 99 if p > 100
+    p
+  end
+
+
+  def console_url
+    File.join(url, 'console')
+  end
+
+  def build_number
+    File.basename(url)
+  end
+
+  def build_steps
+    JSON.parse(stages)
+  rescue
+    []
   end
 
   private
@@ -152,6 +181,6 @@ class BuildJob < ApplicationRecord
 
   def create_log_dir(log_file)
     log_dir = File.dirname(log_file)
-    FileUtils.mkdir_p(log_dir) unless File.exists?(log_dir)
+    FileUtils.mkdir_p(log_dir) unless File.exist?(log_dir)
   end
 end

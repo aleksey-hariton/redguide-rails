@@ -44,7 +44,7 @@
 
       </div>
       <div class="box-footer">
-        <%= link_to 'Back', project_stages_path, class: 'btn btn-default' %>
+        <%= link_to 'Back', edit_project_path(@project,tab: :stages), class: 'btn btn-default' %>
         <%= link_to 'Edit', edit_project_stage_path(@project, @stage), class: "btn btn-primary" %>
       </div>
     </div>

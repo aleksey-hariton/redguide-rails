@@ -1,10 +1,20 @@
 class StageBuild < ApplicationRecord
-  has_one :stage
+  belongs_to :stage
   has_one :changeset
   has_one :build_job
 
-  def build
+  def can_rebuild?
+    statuses = [
+        Redguide::API::STATUS_IN_PROGRESS,
+        Redguide::API::STATUS_SCHEDULED,
+    ]
+    # Dont restart if scheduled/in progress
+    !statuses.include?(status)
+  end
 
+
+
+  def build
     job = build_job
     unless job
       job = BuildJob.new
@@ -16,6 +26,7 @@ class StageBuild < ApplicationRecord
 
 
     job.status = Redguide::API::STATUS_SCHEDULED
+    job.stages = ''
     job.save
     save
 
@@ -34,17 +45,59 @@ class StageBuild < ApplicationRecord
 
     File.delete(log_file) if File.exists? log_file
 
-    puts "@@@@ #{options}"
-
     job.delay.build(
-      'Union',
+      stage.jenkins_job,
       options
     )
   end
 
+  def console_url
+    build_job.console_url
+  end
 
-  def job_url
-    build_job ? build_job.url : ''
+  def build_number
+    build_job.build_number
+  end
+
+  def steps
+    res = []
+    stage.steps.each do |stage_step|
+
+      step = {}
+      step['icon'] = stage_step.icon
+      step['name'] = stage_step.description
+      step['status'] = 'NOT STARTED'
+      step['color'] = 'info-box bg-gray'
+      step_urls = stage_step.urls
+      if step_urls
+        step_urls = JSON.parse(step_urls)
+        step_urls.each_value { |url| url.replace("http://#{url}") unless url.start_with?('http://', 'https://') }
+        step['urls'] = step_urls
+      end
+      step['duration'] = 0
+      build_job.build_steps.each do |build_step|
+        if stage_step.description == build_step['name']
+          step['status'] = build_step['status']
+          step['icon'] = 'refresh fa-spin' if build_step['status'] == 'IN_PROGRESS'
+
+          # color
+          case build_step['status']
+            when 'SUCCESS'
+              color = 'info-box bg-green'
+            when 'FAILED'
+              color = 'info-box bg-red'
+            when 'IN_PROGRESS'
+              color = 'info-box bg-blue'
+          end
+          step['color'] = color
+
+          # duration
+          step['duration'] = build_step['durationMillis'] / 1000
+        end
+      end
+      res << step
+    end
+    res
   end
 
   def started_at
@@ -53,18 +106,6 @@ class StageBuild < ApplicationRecord
 
   def status
     build_job ? build_job.status : Redguide::API::STATUS_NOT_STARTED
-  end
-
-  def build_job
-    @build_job ||= BuildJob.find_by(id: build_job_id)
-    if @build_job && [
-      Redguide::API::STATUS_SKIPPED,
-      Redguide::API::STATUS_NOK,
-      Redguide::API::STATUS_UNKNOWN
-    ].include?(@build_job.status)
-    end
-
-    @build_job
   end
 
   def pr
@@ -89,6 +130,19 @@ class StageBuild < ApplicationRecord
     else
       'No logs'
     end
+  end
+
+  # Method hidden to +private+ section to prevent direct usage!
+  def build_job
+    @build_job ||= BuildJob.find_by(id: build_job_id)
+
+    unless @build_job
+      @build_job = BuildJob.new
+      self.build_job_id = @build_job.id
+      @build_job.save
+    end
+
+    @build_job
   end
 
   private

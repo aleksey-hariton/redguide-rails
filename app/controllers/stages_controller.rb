@@ -29,7 +29,7 @@ class StagesController < ApplicationController
     @stage.project = @project
 
     if @stage.save
-      redirect_to [@stage.project, @stage], notice: 'Stage was successfully created.'
+      redirect_to  edit_project_path(@project,tab: :stages), notice: 'Stage was successfully created.'
     else
       render :new
     end
@@ -47,7 +47,7 @@ class StagesController < ApplicationController
     end
 
     if @stage.update(_params)
-      redirect_to @project, notice: 'Stage was successfully updated.'
+      redirect_to  edit_project_path(@project,tab: :stages), notice: 'Stage was successfully updated.'
     else
       render :edit
     end
@@ -56,7 +56,7 @@ class StagesController < ApplicationController
   # DELETE /stages/1
   def destroy
     @stage.destroy
-    redirect_to projects_url, notice: 'Project was successfully destroyed.'
+    redirect_to  edit_project_path(@project,tab: :stages), notice: 'Stage was successfully destroyed.'
   end
 
   private
@@ -72,7 +72,7 @@ class StagesController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def stage_params
-    params.require(:stage).permit(:name, :description, :project_id)
+    params.require(:stage).permit(:name, :description, :project_id, :jenkins_job, :stage_type)
   end
 
 end

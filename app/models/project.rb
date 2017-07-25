@@ -49,5 +49,5 @@ class Project < ApplicationRecord
   has_many :cookbooks
   has_many :changesets
   has_many :stages
-  has_many :prconfigs
+  has_many :project_configs
 end

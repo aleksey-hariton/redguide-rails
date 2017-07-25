@@ -1,70 +1,64 @@
+<% stage_info = @changeset.stage_info(stage) %>
 <!-- STAGES -->
-
-<div class="row" id="stage-build" data-id="<%= @changeset.slug %>" data-project="<%= @project.slug %>">
+<div class="row" id="stage-build" data-id="<%= @changeset.slug %>" data-project="<%= @project.slug %>" data-stage="<%= stage.name %>">
   <div class="col-md-12">
     <div class="box box-default">
+      <div class="box-header with-border">
+        <h3 class="box-title"><%= stage.description %> <%= link_to "##{stage_info.build_number}", stage_info.console_url, target: :_blank %></h3>
 
-      <div class="box-header">
-        <h3 class="box-title"><%= stage.description %></h3>
+        <div class="box-tools pull-right">
+          <%= status_label stage_info.status %>
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+        </div>
       </div>
       <div class="box-body">
-        <div class="row">
-
-          <% stage_build = StageBuild.find_by(stage_id: stage.id, changeset_id: @changeset.id) %>
-          <% @stages =  (JSON.parse(stage_build.build_job.stages)) %>
-
-          <% steps = stage.steps %>
-          <% @stages.each do |stage| %>
-
-
-              <div class="col-md-4">
-
-                <% if stage['status'] == 'SUCCESS' %>
-                    <% color = "info-box bg-green" %>
-                <% elsif stage['status'] == 'FAILED' %>
-                    <% color = "info-box bg-red" %>
-                <% elsif stage['status'] == 'IN_PROGRESS' %>
-                    <% color = "info-box bg-orange" %>
-                <% else %>
-                    <% color = "info-box bg-white" %>
-                <% end %>
-
-            <div class="<%= color %>">
-
-              <% step_icon = steps.select{|x| x.name == stage['name']}.first %>
-              <%
-                icon = step_icon ? step_icon.icon : 'building'
-                icon = 'refresh fa-spin' if stage['status'] == 'IN_PROGRESS'
-              %>
-              <span class="info-box-icon"><i class="fa fa-<%= icon %>"></i></span>
-
-              <div class="info-box-content">
-
-            <span class="info-box-number">  <%= stage['name'] %></span>
-
-                <span class="info-box-text"> <%= stage['status'] %></span>
-
+        <% if stage_info.can_rebuild? %>
+        <%=
+          link_to icon('play', 'Start!').html_safe,
+                  project_changeset_build_stage_path(@project, @changeset, { project_stage_id: stage.id }),
+                  method: :post,
+                  remote: true,
+                  class: 'btn btn-app btn-start-process'
+        %>
+        <% else %>
+            <div class="row">
+              <div class="col-md-12">
+                <%= render partial: 'shared/build_job_status', locals: {build: stage_info.build_job} %>
               </div>
             </div>
-          </div>
+      <% end %>
+
+        <div class="row">
+          <% stage_info.steps.each do |step| %>
+              <div class="col-md-4 col-sm-6 col-xs-12">
+
+                <div class="box box-widget widget-user-2" style="box-shadow: 0 2px 2px rgba(0,0,0,0.4);">
+                  <div class="widget-user-header bg-<%= step['color'] %>">
+                    <div class="widget-user-image">
+                      <span class="pull-left" style="font-size: 45px;"><i class="fa fa-<%= step['icon'] %>"></i></span>
+                    </div>
+                    <h3 class="widget-user-username"><%= step['name'] %></h3>
+                    <h5 class="widget-user-desc"><%= step['status'] %></h5>
+                    <% if step['duration'] > 0 %>
+                      <span class="pull-right"><%= render partial: 'shared/elapsed_time_label', locals: {elapsed: step['duration']} %></span>
+                    <% end %>
+                  </div>
+                  <div class="box-footer no-padding">
+                    <ul class="nav nav-stacked">
+                      <% if step['urls'] %>
+                          <% step['urls'].each do |name, url| %>
+                              <li><%= link_to name, url %></li>
+                          <% end %>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
 
           <% end %>
         </div>
       </div>
-      <td>
-        <div class="btn-group">
-          <!--% if build.can_rebuild? %-->
-              <%=
-                link_to icon('play','Test').html_safe,
-                        project_changeset_build_stage_path(@project, @changeset, { project_stage_id: stage.id }),
-                        method: :post,
-                        remote: true,
-                        class: 'btn btn-sm btn-default btn-flat btn-start-process',
-                        title: 'Start Test'
-              %>
-          <!--% end %-->
-        </div>
-      </td>
     </div>
   </div>
 </div>

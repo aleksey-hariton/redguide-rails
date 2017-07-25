@@ -1,4 +1,6 @@
-<% if build.status == Redguide::API::STATUS_IN_PROGRESS %>
+<% if build.status == Redguide::API::STATUS_IN_PROGRESS
+%>
+    <%=  render partial: 'shared/elapsed_time_label', locals: {elapsed: build.elapsed} %>
     <%=
       link_to render(partial: 'shared/progress_bar', locals: {progress: build.progress}),
               project_changeset_build_details_path(
@@ -7,7 +9,6 @@
               ),
               remote: true
     %>
-    <%=  render partial: 'shared/elapsed_time_label', locals: {elapsed: build.elapsed} %>
 <% else %>
     <% if build.duration > 0 %>
       <%=  render partial: 'shared/elapsed_time_label', locals: {elapsed: build.duration} %>

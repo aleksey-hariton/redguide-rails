@@ -1,1 +1,0 @@
-json.array! @prconfigs, partial: 'api/prconfigs/prconfig', as: :prconfig
