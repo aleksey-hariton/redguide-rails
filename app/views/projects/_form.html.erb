@@ -54,6 +54,7 @@
                 <table class="table table-striped table-bordered">
                   <thead>
                   <tr>
+                    <th>Type</th>
                     <th>Name</th>
                     <th>Description</th>
                     <th>Jenkins JOB</th>
@@ -64,6 +65,7 @@
                   <tbody>
                   <% @project.stages.each do |stage| %>
                       <tr>
+                        <td><%= stage.stage_type %></td>
                         <td><%= stage.name %></td>
                         <td><%= stage.description %></td>
                         <td><%= stage.jenkins_job %></td>

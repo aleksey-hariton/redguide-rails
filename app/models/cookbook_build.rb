@@ -1,6 +1,7 @@
 class CookbookBuild < ApplicationRecord
   belongs_to :changeset
   belongs_to :cookbook
+  belongs_to :stage
   has_one :build_job
   has_one :pull_request
 
@@ -46,7 +47,7 @@ class CookbookBuild < ApplicationRecord
     File.delete(log_file) if File.exists? log_file
 
     job.delay.build(
-        project.cookbook_build_job,
+        stage.jenkins_job,
         options
     )
   end
