@@ -10,17 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170624140349) do
+ActiveRecord::Schema.define(version: 20170701145111) do
 
   create_table "build_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string   "name",                     default: ""
-    t.string   "url",                      default: ""
-    t.integer  "status",                   default: 0
-    t.integer  "duration",                 default: 0
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.string   "name",                             default: ""
+    t.string   "url",                              default: ""
+    t.integer  "status",                           default: 0
+    t.integer  "duration",                         default: 0
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.datetime "started_at"
-    t.text     "stages",     limit: 65535
+    t.text     "stages",             limit: 65535
+    t.integer  "estimated_duration",               default: 0
   end
 
   create_table "changesets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
@@ -51,10 +52,12 @@ ActiveRecord::Schema.define(version: 20170624140349) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.integer  "pull_request_id"
+    t.integer  "stage_id"
     t.index ["build_job_id"], name: "index_cookbook_builds_on_build_job_id", using: :btree
     t.index ["changeset_id"], name: "index_cookbook_builds_on_changeset_id", using: :btree
     t.index ["commit_sha"], name: "index_cookbook_builds_on_commit_sha", using: :btree
     t.index ["cookbook_id"], name: "index_cookbook_builds_on_cookbook_id", using: :btree
+    t.index ["stage_id"], name: "index_cookbook_builds_on_stage_id", using: :btree
   end
 
   create_table "cookbooks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
@@ -194,6 +197,7 @@ ActiveRecord::Schema.define(version: 20170624140349) do
     t.datetime "updated_at",                null: false
     t.integer  "project_id"
     t.string   "jenkins_job"
+    t.text     "stage_type",  limit: 65535
     t.index ["project_id"], name: "index_stages_on_project_id", using: :btree
   end
 
@@ -205,6 +209,7 @@ ActiveRecord::Schema.define(version: 20170624140349) do
     t.datetime "updated_at",                null: false
     t.integer  "project_id"
     t.integer  "stage_id"
+    t.text     "urls",        limit: 65535
     t.index ["project_id"], name: "index_steps_on_project_id", using: :btree
     t.index ["stage_id"], name: "index_steps_on_stage_id", using: :btree
   end
@@ -232,6 +237,7 @@ ActiveRecord::Schema.define(version: 20170624140349) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
 
+  add_foreign_key "cookbook_builds", "stages"
   add_foreign_key "environments", "organizations"
   add_foreign_key "error_reports", "nodes"
   add_foreign_key "nodes", "environments"
