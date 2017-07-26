@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+require 'pathname'
+
+# path to your application root.
+APP_ROOT = Pathname.new File.expand_path('../../', __FILE__)
+
+Dir.chdir APP_ROOT do
+
+  unless File.exist?('config/database.yml')
+    puts "\n== Copying config/database.yml.docker -> config/database.yml" 
+    system 'cp config/database.yml.docker config/database.yml'
+  end
+
+  unless File.exist?('config/secrets.yml')
+    puts "\n== Copying config/secrets.yml -> config/secrets.yml" 
+    system 'cp config/secrets.yml.example config/secrets.yml'
+  end
+
+  unless File.exist?('.env')
+    puts "\n== Copying .env.example -> .env" 
+    system 'cp .env.example .env'
+  end
+end
