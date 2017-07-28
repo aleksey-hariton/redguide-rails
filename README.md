@@ -16,6 +16,23 @@ RedGuide - CI tool for support of IaaC (Infrastructure as a Code) and TDI (Test 
 
 How to get started
 ------------------
+**Installation with Docker**
+
+1. Install 
+   - Docker: https://docs.docker.com/engine/installation/
+   - Docker-compose: https://docs.docker.com/compose/install/
+2. Clone this repo
+3. Run the command: `bin/setup_with_docker` - it will copy database.yml secrets.yml .env files from examples. _Note_: at
+this step you can modify credential information, such as MySQL root password, RedGuide admin user and so on.
+4. Run database container: `docker-compose up -d db` - it may take some seconds to start MySQL server.
+5. Prepare database: `docker-compose run redguide rake db:create db:setup`
+6. Run RedGuide container: `docker-compose up redguide`
+
+Now you have:
+  - RedGuide: http://127.0.0.1:3000
+  - MySQL instance: 127.0.0.1:13306
+
+**Manual installation**
 1. Clone this repo
 2. Install mysql client package if you are going to store data in mysql database
 3. Install rvm: https://rvm.io/
